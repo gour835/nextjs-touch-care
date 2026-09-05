@@ -1,30 +1,9 @@
+import { CheckCircleIcon } from "lucide-react";
 
 
 export default function Home() {
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-        <div className="container">
-          <a className="navbar-brand" href="index.html"><span className="flaticon-lotus"></span>Energen</a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-            aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="oi oi-menu"></span> Menu
-          </button>
-          <div className="collapse navbar-collapse" id="ftco-nav">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item active"><a href="#" className="nav-link">Home</a></li>
-              <li className="nav-item"><a href="#" className="nav-link">About</a></li>
-              <li className="nav-item"><a href="#" className="nav-link">Treatments</a></li>
-              <li className="nav-item"><a href="#" className="nav-link">Specialists</a></li>
-              <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
-              <li className="nav-item"><a href="#" className="nav-link">Blog</a></li>
-              <li className="nav-item"><a href="#" className="nav-link">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      {/* // end nav */}
-
       <section className="hero-wrap js-fullheight "
         style={{ backgroundImage: "url('/images/bg_1.jpg')" }}
         data-stellar-background-ratio="0.5">
@@ -43,8 +22,8 @@ export default function Home() {
                 </div>
               </div>
               <p>
-                <a href="#" className="btn btn-primary p-3 px-5 py-4 mr-md-2">Get in Touch</a>
-                <a href="#" className="btn btn-outline-primary p-3 px-5 py-4 ml-md-2">Contact</a>
+                <a href="#" className="btn btn-primary p-3 px-5 py-4 mr-md-2 rounded-lg">Get in Touch</a>
+                <a href="#" className="btn btn-outline-primary p-3 px-5 py-4 ml-md-2 rounded-lg">Contact</a>
               </p>
             </div>
           </div>
@@ -65,15 +44,19 @@ export default function Home() {
                 Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the
                 coast of the Semantics, a large language ocean.</p>
               <ul className="mt-5 do-list">
-                <li className=" "><a href="#"><span className="ion-ios-checkmark-circle mr-3"></span>Spa
-                  &amp; Massage boosts brain power</a></li>
-                <li className=" "><a href="#"><span className="ion-ios-checkmark-circle mr-3"></span>Spa
+                <li className="flex  "><a href="#">
+
+                  <CheckCircleIcon className="float-left m-2 " />
+                  Spa
+                  &amp; Massage boosts brain power</a>
+                </li>
+                <li className="flex  "><a href="#"><CheckCircleIcon className="float-left m-2 " />Spa
                   &amp; Massage helps you to breathe better</a></li>
-                <li className=" "><a href="#"><span className="ion-ios-checkmark-circle mr-3"></span>Spa
+                <li className="flex  "><a href="#"><CheckCircleIcon className="float-left m-2 " />Spa
                   &amp; Massage improves your strength</a></li>
-                <li className=" "><a href="#"><span className="ion-ios-checkmark-circle mr-3"></span>Spa
+                <li className="flex  "><a href="#"><CheckCircleIcon className="float-left m-2 " />Spa
                   &amp; Massage helps you to focus</a></li>
-                <li className=" "><a href="#"><span className="ion-ios-checkmark-circle mr-3"></span>Spa
+                <li className="flex  "><a href="#"><CheckCircleIcon className="float-left m-2 " />Spa
                   &amp; Massage helps give meaning to your day</a></li>
               </ul>
             </div>
@@ -188,7 +171,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="ftco-section">
+      <section className="ftco-section" id="treatments">
         <div className="container-fluid px-md-5">
           <div className="row justify-content-center mb-5 pb-3">
             <div className="col-md-12 heading-section text-center">
@@ -391,7 +374,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="ftco-section bg-light">
+      <section className="ftco-section bg-light" id="pricing">
         <div className="container">
           <div className="row justify-content-center mb-5 pb-3">
             <div className="col-md-7 heading-section   text-center">
@@ -787,77 +770,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="ftco-footer ftco-section">
-		<div className="container">
-			<div className="row d-flex">
-				<div className="col-md">
-					<div className="ftco-footer-widget mb-4">
-						<h2 className="ftco-heading-2">Energen</h2>
-						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
-							there live the blind texts.</p>
-						<ul className="ftco-footer-social list-unstyled float-lft mt-3">
-							<li className=" "><a href="#"><span className="icon-twitter"></span></a></li>
-							<li className=" "><a href="#"><span className="icon-facebook"></span></a></li>
-							<li className=" "><a href="#"><span className="icon-instagram"></span></a></li>
-						</ul>
-					</div>
-				</div>
-				<div className="col-md">
-					<div className="ftco-footer-widget mb-4 ml-md-4">
-						<h2 className="ftco-heading-2">Popular Links</h2>
-						<ul className="list-unstyled">
-							<li><a href="#">Aromatheraphy</a></li>
-							<li><a href="#">Skin Care</a></li>
-							<li><a href="#">Herbal Spa</a></li>
-							<li><a href="#">Body Massage</a></li>
-						</ul>
-					</div>
-				</div>
-				<div className="col-md">
-					<div className="ftco-footer-widget mb-4">
-						<h2 className="ftco-heading-2">Quick Links</h2>
-						<ul className="list-unstyled">
-							<li><a href="#">About</a></li>
-							<li><a href="#">Our Spa</a></li>
-							<li><a href="#">Treatments</a></li>
-							<li><a href="#">Specialists</a></li>
-							<li><a href="#">Contact</a></li>
-						</ul>
-					</div>
-				</div>
-				<div className="col-md">
-					<div className="ftco-footer-widget mb-4">
-						<h2 className="ftco-heading-2">Have a Questions?</h2>
-						<div className="block-23 mb-3">
-							<ul>
-								<li><span className="icon icon-map-marker"></span><span className="text">203 Fake St. Mountain
-										View, San Francisco, California, USA</span></li>
-								<li><a href="#"><span className="icon icon-phone"></span><span className="text">+2 392 3929
-											210</span></a></li>
-								<li><a href="#"><span className="icon icon-envelope"></span><span
-											className="text">info@yourdomain.com</span></a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className="row">
-				<div className="col-md-12 text-center">
-
-					{/* <p className="mb-0">
-						{/* <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> 
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-
-						</script> All rights reserved | This template is made with <i className="icon-heart" aria-hidden="true"></i>
-						by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-						{/* <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> 
-					</p> */}
-				</div>
-			</div>
-		</div>
-	</footer>
+      
 
     </>
   );
