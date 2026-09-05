@@ -1,9 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Open_Sans } from "next/font/google";
 import "./globals.css";
+import '@/public/css/open-iconic-bootstrap.min.css';
+// import '@/public/css/animate.css';
+import '@/public/css/owl.carousel.min.css';
+import '@/public/css/owl.theme.default.min.css';
+import '@/public/css/magnific-popup.css';
+import '@/public/css/aos.css';
+import '@/public/css/icomoon.css';
+import '@/public/css/bootstrap-datepicker.css';
+import '@/public/css/jquery.timepicker.css';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+
+import '@/public/css/flaticon.css';
+import '@/public/css/icomoon.css';
+import '@/public/css/style.css';
+
+import { cn } from "@/lib/utils";
+import Script from "next/script";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+
+const openSans = Open_Sans({
+  weight: ['300', '400', '600'] ,
+  variable: "--font-open-sans",
   subsets: ["latin"],
 });
 
@@ -21,9 +41,26 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", openSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+         <Script src="/js/jquery.min.js" />
+        <Script src="/js/jquery-migrate-3.0.1.min.js" />
+        <Script src="/js/popper.min.js" />
+        <Script src="/js/bootstrap.min.js" />
+        <Script src="/js/jquery.easing.1.3.js" />
+        <Script src="/js/jquery.waypoints.min.js" />
+        <Script src="/js/jquery.stellar.min.js" />
+        <Script src="/js/owl.carousel.min.js" />
+        <Script src="/js/jquery.magnific-popup.min.js" />
+        <Script src="/js/aos.js" />
+        <Script src="/js/jquery.animateNumber.min.js" />
+        <Script src="/js/bootstrap-datepicker.js" />
+        <Script src="/js/jquery.timepicker.min.js" />
+        <Script src="/js/scrollax.min.js" />
+        <Script src="/js/main.js" />
+      </body>
     </html>
   );
 }
