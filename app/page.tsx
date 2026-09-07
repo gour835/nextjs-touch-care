@@ -171,7 +171,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="ftco-section" id="treatments">
+      <section className="ftco-section" id="treatment">
         <div className="container-fluid px-md-5">
           <div className="row justify-content-center mb-5 pb-3">
             <div className="col-md-12 heading-section text-center">

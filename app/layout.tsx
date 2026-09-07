@@ -18,6 +18,7 @@ import '@/public/css/style.css';
 
 import { cn } from "@/lib/utils";
 import Script from "next/script";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -54,9 +55,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </button>
             <div className="collapse navbar-collapse" id="ftco-nav">
               <ul className="navbar-nav ml-auto">
-                <li className="nav-item active"><a href="#" className="nav-link">Home</a></li>
-                <li className="nav-item"><a href="#treatments" className="nav-link">Treatments</a></li>
-                <li className="nav-item"><a href="#pricing" className="nav-link">Pricing</a></li>
+                <li className="nav-item active"><Link href="/" className="nav-link">Home</Link></li>
+                <li className="nav-item"><Link href="/#treatment" className="nav-link">Treatments</Link></li>
+                <li className="nav-item"><Link href="/#pricing" className="nav-link">Pricing</Link></li>
                 <li className="nav-item"><a href="/blogs" className="nav-link">Blog</a></li>
                 <li className="nav-item"><a href="/contact" className="nav-link">Contact</a></li>
               </ul>
