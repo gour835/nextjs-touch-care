@@ -590,7 +590,6 @@ export default function Home() {
 
       <section className="ftco-counter img" id="section-counter"
         // style="background-image: url(images/bg_3.jpg);"
-        style={{ backgroundImage: "url('/images/bg_3.jpg')" }}
         data-stellar-background-ratio="0.5">
         <div className="overlay"></div>
         <div className="container">
@@ -600,7 +599,7 @@ export default function Home() {
                 <div className="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap  ">
                   <div className="block-18 text-center">
                     <div className="text">
-                      <strong className="number" data-number="2560">0</strong>
+                      <strong className="number" data-number="3000">0</strong>
                       <span>Happy Customers</span>
                     </div>
                   </div>
