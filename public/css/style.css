@@ -9697,3 +9697,7 @@ textarea.form-control {
 .owl-stage-outer{
   overflow-x: hidden;
 }
+
+.nav-link{
+  cursor: pointer;
+}
