@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Open_Sans, Prata } from "next/font/google";
+import { Inter, Open_Sans, Prata } from "next/font/google";
 import "./globals.css";
 import '@/public/css/open-iconic-bootstrap.min.css';
 // import '@/public/css/animate.css';
@@ -18,7 +18,6 @@ import '@/public/css/style.css';
 
 import { cn } from "@/lib/utils";
 import Script from "next/script";
-import Link from "next/link";
 import NavBar from "@/components/ui/navbar";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
