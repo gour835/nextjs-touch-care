@@ -44,6 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={cn("h-full", "antialiased", openSans.variable, prata.variable, "font-sans", inter.variable)}
+      data-scroll-behavior="smooth"
     >
       <body className="min-h-full flex flex-col">
         <NavBar/>

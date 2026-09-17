@@ -76,14 +76,14 @@ export default function NavBar() {
                             </li>
 
                             <li
-                                className={`nav-item ${url === '/contact' ? 'active' : ''}`}
+                                className={`nav-item ${url === '/login' ? 'active' : ''}`}
                             >
                                 <a onClick={() => {
-                                    handleurl('/contact')
+                                    handleurl('/login')
                                 }}
                                     className="nav-link"
                                 >
-                                    Contact
+                                    Login
                                 </a>
                             </li>
 
