@@ -125,7 +125,7 @@ export function Navbar() {
             </div>
           )}
           <Button
-            color="black"
+            color="white"
             variant="text"
             onClick={() => {
               HandleLoggin();
