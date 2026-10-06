@@ -5,27 +5,24 @@ import AboutCard from "@/components/about-card";
 
 const EVENT_INFO = [
   {
-    title: "Cutting-Edge Insights!",
-    description:
-      "Gain deep insights into the latest AI trends, developments, and applications that are reshaping industries worldwide. ",
-    subTitle: "Presentation",
+    title: "Before",
+    background: "bg-[url('/image/bg_1.jpg')]"
   },
   {
-    title: "Practical Knowledge!",
-    description:
-      "Attend workshops and hands-on sessions to acquire practical skills that you can apply immediately.",
-    subTitle: "Workshops",
+    title: "After",
+    background: "bg-[url('/image/bg_4.jpg')]"
+    
   },
 ];
 
 export function AboutEvent() {
   return (
     <section className="container mx-auto flex flex-col items-center px-4 py-10">
-      <Typography variant="h6" className="text-center mb-2 text-[#d9bf77]" color="inherit" onResize={undefined} onResizeCapture={undefined}>
-        About the event
+      <Typography variant="h6" className="text-center mb-2 text-[#d9bf77] font-[inherit]" color="inherit" onResize={undefined} onResizeCapture={undefined}>
+        About Us
       </Typography>
-      <Typography variant="h3" className="text-center text-[#4A1525] " color="inherit" onResize={undefined} onResizeCapture={undefined}>
-        Why Attend?
+      <Typography variant="h3" className="text-center text-[#4A1525] font-[inherit] " color="inherit" onResize={undefined} onResizeCapture={undefined}>
+        Why Attend ?
       </Typography>
       <Typography
         variant="lead"
@@ -41,9 +38,13 @@ export function AboutEvent() {
         ))}
         <div className="md:col-span-2">
           <AboutCard
-            title="Networking!"
-            subTitle="Community"
+            // title="Networking!"
+            // subTitle="Community"
             description="Connect with industry leaders, AI experts, and fellow enthusiasts to build valuable professional relationships."
+            button={true}
+          
+            background="bg-[url('/image/bg_1.jpg'),_url('/image/bg_4.jpg')] bg-[size:50%_100%,_50%_100%] bg-[position:left_center,_right_center] bg-no-repeat"
+
           />
         </div>
       </div>

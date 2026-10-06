@@ -130,7 +130,7 @@ export function Navbar() {
             onClick={() => {
               HandleLoggin();
             }}
-            className="relative group text-[#4A1525] overflow-hidden" onResize={undefined} onResizeCapture={undefined}>
+            className="relative group text-[#4A1525] overflow-hidden hover:bg-brown-900/5" onResize={undefined} onResizeCapture={undefined}>
             <span className="relative z-10">
               Log {IsUserLoggedIn ? 'Out' : 'In'}
             </span>

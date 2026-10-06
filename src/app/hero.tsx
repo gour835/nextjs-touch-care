@@ -1,7 +1,7 @@
 "use client";
 
-import { IconButton, Button, Typography } from "@material-tailwind/react";
-import { PlayIcon } from "@heroicons/react/24/solid";
+import { Button, Typography } from "@material-tailwind/react";
+
 
 function Hero() {
   return (
@@ -19,7 +19,7 @@ function Hero() {
                 className="w-20 h-20 lg:w-16 lg:h-16 object-fit "
               />
               <span className="my-1 hidden lg:block lg:my-3">
-                Touch & Care:
+                Touch & Care
 
               </span>
             </div>
@@ -32,10 +32,37 @@ function Hero() {
           </Typography>
           <Typography
             variant="lead"
-            className="lg:mt-3 lg:max-w-4xl lg:mb-8 mb-28 w-full text-center font-normal !text-gray-500 font-[inherit]" onResize={undefined} onResizeCapture={undefined}      >
+            className="lg:mt-3 lg:max-w-4xl lg:mb-8  w-full text-center font-normal !text-gray-500 font-[inherit]" onResize={undefined} onResizeCapture={undefined}      >
             We bring you curated tips, expert routines, and essentials to highlight your natural glow and boost your confidence from within.
           </Typography>
 
+          <div className="flex flex-col lg:flex-row gap-3">
+
+
+            <Button
+              color="white"
+              variant="text"
+              onClick={() => {
+                console.log('first')
+              }}
+              className="relative w-80 lg:w-40 h-14 group text-[#4A1525] overflow-hidden  bg-[#d9bf77] rounded-none shadow hover:border hover:border-orange-400 shadow-orange-100 transition-all duration-400" onResize={undefined} onResizeCapture={undefined}>
+              <span className="relative z-10">
+                Get Started
+              </span>
+            </Button>
+            <Button
+              color="white"
+              variant="text"
+              onClick={() => {
+                console.log('first')
+              }}
+              className="relative w-80 lg:w-40 h-14 group text-[#4A1525] overflow-hidden  bg-[#d9bf77] rounded-none shadow hover:border hover:border-orange-400 shadow-orange-100 transition-all duration-400" onResize={undefined} onResizeCapture={undefined}>
+              <span className="relative z-10">
+                Login | Register
+              </span>
+            </Button>
+
+          </div>
 
         </div>
       </div>
