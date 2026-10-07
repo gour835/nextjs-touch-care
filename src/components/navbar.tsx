@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import NavButtonLG from "./nav-button";
 
 
 export function Navbar() {
@@ -90,7 +91,7 @@ export function Navbar() {
               alt="logo"
               className="w-10 h-10 object-fit "
             />
-            <span className={`my-2  ${isScrolling? ' text-[#4A1525] ':'text-[#d9bf77]' } group-hover:text-[#4A1525] transition-all duration-300 font-semibold `} >
+            <span className={`my-2  ${isScrolling ? ' text-[#4A1525] ' : 'text-[#d9bf77]'} group-hover:text-[#4A1525] transition-all duration-300 font-semibold `} >
               Touch & Care
 
             </span>
@@ -124,18 +125,16 @@ export function Navbar() {
 
             </div>
           )}
-          <Button
-            color="white"
-            variant="text"
-            onClick={() => {
-              HandleLoggin();
-            }}
-            className="relative group text-[#4A1525] overflow-hidden hover:bg-brown-900/5" onResize={undefined} onResizeCapture={undefined}>
-            <span className="relative z-10">
-              Log {IsUserLoggedIn ? 'Out' : 'In'}
-            </span>
-            <span className={`absolute bottom-0 left-0 h-[2px] w-full bg-${IsUserLoggedIn ? 'red-500' : 'black'} scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100`} />
-          </Button>
+
+
+          <NavButtonLG onClick={() => router.push('/transitions')} border="black" >
+            Transitions
+          </NavButtonLG>
+
+          <NavButtonLG onClick={HandleLoggin} border={`${IsUserLoggedIn? 'red-500': 'black'}`} >
+            Log {IsUserLoggedIn ? 'Out' : 'In'}
+          </NavButtonLG>
+
         </div>
         <IconButton
           variant="text"
@@ -179,15 +178,13 @@ export function Navbar() {
           )}
 
           <div className="mt-6 flex flex-col items-center gap-4">
-            <Button variant="text" onResize={undefined} onResizeCapture={undefined}
+            <Link href={'transitions'}>
+              <Button variant="text" onResize={undefined} onResizeCapture={undefined}
+              >
+                Transitions
 
-              onClick={() => {
-                HandleLoggin();
-              }}
-            >
-              Log {IsUserLoggedIn ? 'Out' : 'In'}
-
-            </Button>
+              </Button>
+            </Link>
             <Button variant="text" onResize={undefined} onResizeCapture={undefined}
 
               onClick={() => {

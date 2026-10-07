@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Typography } from "@material-tailwind/react";
+import Link from "next/link";
 
 
 function Hero() {
@@ -38,18 +39,16 @@ function Hero() {
 
           <div className="flex flex-col lg:flex-row gap-3">
 
-
+            <Link href='/transitions'>
             <Button
               color="white"
               variant="text"
-              onClick={() => {
-                console.log('first')
-              }}
               className="relative w-80 lg:w-40 h-14 group text-[#4A1525] overflow-hidden  bg-[#d9bf77] rounded-none shadow hover:border hover:border-orange-400 shadow-orange-100 transition-all duration-400" onResize={undefined} onResizeCapture={undefined}>
               <span className="relative z-10">
                 Get Started
               </span>
             </Button>
+            </Link>
             <Button
               color="white"
               variant="text"

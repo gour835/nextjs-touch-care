@@ -39,21 +39,6 @@ const EVENT_CONTENT = [
 export function EventContent() {
   return (
     <section className="py-8 px-8 lg:py-20">
-      <Tabs value="Day1" className="mb-8">
-        <div className="w-full flex mb-8 flex-col items-center">
-          <TabsHeader className="h-12 w-72 md:w-96" onResize={undefined} onResizeCapture={undefined}>
-            <Tab value="Day1" className="font-medium" onResize={undefined} onResizeCapture={undefined}>
-              Day 1
-            </Tab>
-            <Tab value="Day2" className="font-medium" onResize={undefined} onResizeCapture={undefined}>
-              Day 2
-            </Tab>
-            <Tab value="Day3" className="font-medium" onResize={undefined} onResizeCapture={undefined}>
-              Day 3
-            </Tab>
-          </TabsHeader>
-        </div>
-      </Tabs>
       <div className="mx-auto container">
         {EVENT_CONTENT.map((props, idx) => (
           <EventContentCard key={idx} {...props} />
