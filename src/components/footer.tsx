@@ -27,11 +27,10 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center !justify-between">
           <Typography
             as="a"
-            href="https://www.material-tailwind.com"
-            target="_blank"
+            href="/"
             variant="h6"
             className="text-gray-900" onResize={undefined} onResizeCapture={undefined}          >
-            Material Tailwind
+            Touch & Care
           </Typography>
           <ul className="flex justify-center my-4 md:my-0 w-max mx-auto items-center gap-4">
             {LINKS.map((link, index) => (

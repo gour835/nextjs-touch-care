@@ -34,12 +34,12 @@ export function Faq() {
     <section className="py-8 px-8 lg:py-20">
       <div className="container mx-auto">
         <div className="text-center">
-          <Typography variant="h1" color="blue-gray" className="mb-4" onResize={undefined} onResizeCapture={undefined}>
+          <Typography variant="h1" color="blue-gray" className="mb-4 font-[inherit]" onResize={undefined} onResizeCapture={undefined}>
             Frequently asked questions
           </Typography>
           <Typography
             variant="lead"
-            className="mx-auto mb-24 lg:w-3/5 !text-gray-500" onResize={undefined} onResizeCapture={undefined}          >
+            className="mx-auto mb-24 lg:w-3/5 !text-gray-500 font-[inherit]" onResize={undefined} onResizeCapture={undefined}          >
             Welcome to the AI Conference 2023 FAQ section. We&apos;re here to
             address your most common queries and provide you with the
             information you need to make the most of your conference experience.
@@ -52,13 +52,13 @@ export function Faq() {
               key={key}
               open={open === key + 1}
               onClick={() => handleOpen(key + 1)} onResize={undefined} onResizeCapture={undefined}            >
-              <AccordionHeader className="text-left text-gray-900" onResize={undefined} onResizeCapture={undefined}>
+              <AccordionHeader className="text-left text-gray-900 font-[inherit]" onResize={undefined} onResizeCapture={undefined}>
                 {title}
               </AccordionHeader>
               <AccordionBody>
                 <Typography
                   color="blue-gray"
-                  className="font-normal text-gray-500" onResize={undefined} onResizeCapture={undefined}                >
+                  className=" text-gray-500 font-[inherit]" onResize={undefined} onResizeCapture={undefined}                >
                   {desc}
                 </Typography>
               </AccordionBody>

@@ -50,21 +50,43 @@ export function EventContentCard({
         <Typography className="mb-12 md:w-8/12 font-medium !text-gray-500" onResize={undefined} onResizeCapture={undefined}>
           {des}
         </Typography>
-        <div className="flex items-center gap-4">
-          <Avatar
-            variant="circular"
-            src="/logos/spotify-logo.png"
-            alt="spotify"
-            size="lg" onResize={undefined} onResizeCapture={undefined}          />
-          <div>
-            <Typography variant="h6" color="blue-gray" className="mb-0.5" onResize={undefined} onResizeCapture={undefined}>
-              {name}
-            </Typography>
-            <Typography variant="small" className="font-normal !text-gray-500" onResize={undefined} onResizeCapture={undefined}>
-              {position}
-            </Typography>
+
+        <div className="flex flex-row gap-10">
+          <div className="flex items-center gap-4">
+            <Avatar
+              variant="circular"
+              src="/logos/spotify-logo.png"
+              alt="spotify"
+              size="lg" onResize={undefined} onResizeCapture={undefined}
+            />
+            <div>
+              <Typography variant="h6" color="blue-gray" className="mb-0.5" onResize={undefined} onResizeCapture={undefined}>
+                {name}
+              </Typography>
+              <Typography variant="small" className="font-normal !text-gray-500" onResize={undefined} onResizeCapture={undefined}>
+                {position}
+              </Typography>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <Avatar
+              variant="circular"
+              src="/logos/spotify-logo.png"
+              alt="spotify"
+              size="lg" onResize={undefined} onResizeCapture={undefined}
+            />
+            <div>
+              <Typography variant="h6" color="blue-gray" className="mb-0.5" onResize={undefined} onResizeCapture={undefined}>
+                {name}
+              </Typography>
+              <Typography variant="small" className="font-normal !text-gray-500" onResize={undefined} onResizeCapture={undefined}>
+                {position}
+              </Typography>
+            </div>
           </div>
         </div>
+
+
       </CardBody>
     </Card>
   );

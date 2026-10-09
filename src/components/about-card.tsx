@@ -17,7 +17,7 @@ interface AboutCardProp {
 
 export function AboutCard({ title, description, subTitle, background, button }: AboutCardProp) {
   return (
-    <Card shadow={false} onResize={undefined} onResizeCapture={undefined}>
+    <Card className="w-full" shadow={false} onResize={undefined} onResizeCapture={undefined}>
       <CardBody className={`h-[453px] ${button && 'p-5'} flex flex-col justify-end items-center rounded-2xl   ${background ? background : 'bg-gray-900'} `} onResize={undefined} onResizeCapture={undefined}>
         <Typography variant="h6" className="mb-4 text-center" color="white" onResize={undefined} onResizeCapture={undefined}>
           {subTitle}

@@ -19,18 +19,15 @@ export function AboutEvent() {
   return (
     <section className="container mx-auto flex flex-col items-center px-4 py-10">
       <Typography variant="h6" className="text-center mb-2 text-[#d9bf77] font-[inherit]" color="inherit" onResize={undefined} onResizeCapture={undefined}>
-        About Us
+        Transformations
       </Typography>
       <Typography variant="h3" className="text-center text-[#4A1525] font-[inherit] " color="inherit" onResize={undefined} onResizeCapture={undefined}>
-        Why Attend ?
+        See the Difference
       </Typography>
       <Typography
         variant="lead"
         className="mt-2 lg:max-w-4xl mb-8 w-full text-center font-normal !text-gray-500 font-[inherit]" onResize={undefined} onResizeCapture={undefined}      >
-        Welcome to the AI Conference 2023, where the future unfolds! Whether
-        you&apos;re a seasoned AI professional, a curious newcomer, or a
-        business leader looking to harness the power of AI, this conference is
-        designed to inspire, educate, and connect.
+        Every transformation starts with understanding what you want and ends with a look that feels right for you. Explore real client transformations and see how thoughtful beauty services can bring out a fresh, confident version of yourself.
       </Typography>
       <div className="mt-8 w-full grid grid-cols-1 md:grid-cols-2 gap-4 ">
         {EVENT_INFO.map((props, idx) => (
