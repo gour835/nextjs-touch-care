@@ -10,7 +10,7 @@ function Hero() {
     // <div className="relative min-h-screen w-full bg-[url('/image/bg_1.jpg')] bg-cover bg-no-repeat bg-po">
     <div className="relative min-h-screen w-full bg-[url('/image/bg_1.jpg')] bg-cover bg-no-repeat">
       <div className="absolute inset-0 h-full w-full" />
-      <div className="grid min-h-screen px-8">
+      <div className="grid place-items-center place-content-center min-h-screen px-8">
         <div className="container relative z-10 mt-20 lg:m-auto grid place-items-start lg:place-items-center ">
 
           <Typography variant="h1" color="inherit" className="lg:max-w-5xl w-full  text-3xl lg:text-5xl font-[inherit] flex flex-col justify-center items-center gap-2" onResize={undefined} onResizeCapture={undefined}>
@@ -38,13 +38,13 @@ function Hero() {
             We bring you curated tips, expert routines, and essentials to highlight your natural glow and boost your confidence from within.
           </Typography>
 
-          <div className="flex flex-col lg:flex-row gap-3">
+          <div className="flex flex-col mx-auto lg:flex-row gap-3">
 
             <Link href='/transitions'>
             <Button
               color="white"
               variant="text"
-              className="relative w-80 lg:w-40 h-14 group text-[#4A1525] overflow-hidden  bg-[#d9bf77] rounded-none shadow hover:border hover:border-orange-400 shadow-orange-100 transition-all duration-400" onResize={undefined} onResizeCapture={undefined}>
+              className="relative mx-auto w-80 lg:w-40 h-14 group text-[#4A1525] overflow-hidden  bg-[#d9bf77] rounded-none shadow hover:border hover:border-orange-400 shadow-orange-100 transition-all duration-400" onResize={undefined} onResizeCapture={undefined}>
               <span className="relative z-10">
                 Get Started
               </span>

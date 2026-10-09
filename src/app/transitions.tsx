@@ -21,7 +21,7 @@ const EVENT_INFO = [
 
 export function Transition() {
   return (
-    <section className="container mx-auto flex flex-col items-center px-4 py-10">
+    <section className="container mx-auto flex flex-col items-center px-4 mt-7 lg:mt-5 py-10">
       <Typography variant="h6" className="text-center mb-2 text-[#d9bf77] font-[inherit]" color="inherit" onResize={undefined} onResizeCapture={undefined}>
         Transformations
       </Typography>
@@ -35,11 +35,11 @@ export function Transition() {
       </Typography>
       <div className="mt-8  w-full flex flex-col ">
         {EVENT_INFO.map((props, idx) => (
-          <span key={crypto.randomUUID()}>
-            <Typography variant="h6" className="text-left mt-8 mb-2 text-[#d9bf77] font-[inherit]" color="inherit" onResize={undefined} onResizeCapture={undefined}>
+          <span key={crypto.randomUUID()} className="border border-solid  my-10 p-2 lg:shadow-sm rounded-2xl shadow-2xl shadow-black ">
+            <Typography variant="h6" className="text-left mt-3 mb-2 text-[#d9bf77] font-[inherit]" color="inherit" onResize={undefined} onResizeCapture={undefined}>
               Transformations
             </Typography>
-            <div className="flex flex-row gap-5">
+            <div className="flex flex-col lg:flex-row gap-5">
               <AboutCard background={props.after} />
               <AboutCard background={props.before} />
 

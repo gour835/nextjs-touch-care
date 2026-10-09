@@ -61,6 +61,7 @@ export function Navbar() {
   }
   useEffect(() => {
     update();
+    
   }, [pathname])
 
   if (sessionStatus === "loading") {
@@ -98,6 +99,8 @@ export function Navbar() {
           </Link>
         </Typography>
 
+        {/* Desktop Nav */}
+
         <div className=" items-center gap-4 hidden lg:flex ">
 
           {IsUserLoggedIn && (
@@ -127,7 +130,7 @@ export function Navbar() {
           )}
 
 
-          <NavButtonLG onClick={() => router.push('/transitions')} border="black" >
+          <NavButtonLG onClick={() => router.push('/transitions')} active={pathname == '/transitions' ? true: false} border="black" >
             Transitions
           </NavButtonLG>
 
@@ -136,6 +139,9 @@ export function Navbar() {
           </NavButtonLG>
 
         </div>
+        {/* /Desktop Nav */}
+
+        {/* mobile Nav */}
         <IconButton
           variant="text"
           color={"gray"}
@@ -178,14 +184,14 @@ export function Navbar() {
           )}
 
           <div className="mt-6 flex flex-col items-center gap-4">
-            <Link href={'transitions'}>
-              <Button variant="text" onResize={undefined} onResizeCapture={undefined}
+            <Link href={'/transitions'} className="!w-full">
+              <Button variant="text" className={`!w-full ${pathname == '/transitions' && 'bg-gray-900/15'}`} onResize={undefined} onResizeCapture={undefined}
               >
                 Transitions
 
               </Button>
             </Link>
-            <Button variant="text" onResize={undefined} onResizeCapture={undefined}
+            <Button variant="text" className="!w-full" onResize={undefined} onResizeCapture={undefined}
 
               onClick={() => {
                 HandleLoggin();

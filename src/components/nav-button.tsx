@@ -3,18 +3,19 @@ import React from "react";
 interface NavButtonLGProps {
     onClick?: () => void;
     children: React.ReactNode;
-    border?: string
+    border?: string;
+    active? : boolean
 
 
 }
 
-function NavButtonLG({ onClick, children, border = 'black' }: NavButtonLGProps) {
+function NavButtonLG({ onClick, active, children, border = 'black' }: NavButtonLGProps) {
     return (
         <Button
             color="white"
             variant="text"
             onClick={onClick}
-            className="relative group text-[#4A1525] overflow-hidden hover:bg-brown-900/5" onResize={undefined} onResizeCapture={undefined}>
+            className={`relative group text-[#4A1525] overflow-hidden hover:bg-brown-900/5 ${active? 'bg-brown-900/15': ''}`} onResize={undefined} onResizeCapture={undefined}>
             <span className="relative z-10">
                 {children}
             </span>

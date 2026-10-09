@@ -33,17 +33,6 @@ export function AboutEvent() {
         {EVENT_INFO.map((props, idx) => (
           <AboutCard key={idx} {...props} />
         ))}
-        <div className="md:col-span-2">
-          <AboutCard
-            // title="Networking!"
-            // subTitle="Community"
-            description="Connect with industry leaders, AI experts, and fellow enthusiasts to build valuable professional relationships."
-            button={true}
-          
-            background="bg-[url('/image/bg_1.jpg'),_url('/image/bg_4.jpg')] bg-[size:50%_100%,_50%_100%] bg-[position:left_center,_right_center] bg-no-repeat"
-
-          />
-        </div>
       </div>
     </section>
   );
