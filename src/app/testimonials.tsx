@@ -1,9 +1,7 @@
 "use client";
 
 import {
-  Tab,
-  Tabs,
-  TabsHeader,
+  Typography,
 } from "@material-tailwind/react";
 
 import EventContentCard from "@/components/event-content-card";
@@ -36,10 +34,13 @@ const EVENT_CONTENT = [
   },
 ];
 
-export function EventContent() {
+export function Testimonials() {
   return (
     <section className="py-8 px-8 lg:py-20">
       <div className="mx-auto container">
+      <Typography variant="h3" className="font-[inherit]  text-[#4A1525] ml-5" onResize={undefined} onResizeCapture={undefined} >
+        Testimonials
+      </Typography>
         {EVENT_CONTENT.map((props, idx) => (
           <EventContentCard key={idx} {...props} />
         ))}
@@ -48,4 +49,4 @@ export function EventContent() {
   );
 }
 
-export default EventContent;
+export default Testimonials;

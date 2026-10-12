@@ -34,33 +34,32 @@ function Hero() {
           </Typography>
           <Typography
             variant="lead"
-            className="lg:mt-3 lg:max-w-4xl lg:mb-8  w-full text-center font-normal !text-gray-500 font-[inherit]" onResize={undefined} onResizeCapture={undefined}      >
+            className="mt-4 lg:mt-3 lg:max-w-4xl lg:mb-8  w-full text-center font-normal !text-gray-500 font-[inherit]" onResize={undefined} onResizeCapture={undefined}      >
             We bring you curated tips, expert routines, and essentials to highlight your natural glow and boost your confidence from within.
           </Typography>
 
-          <div className="flex flex-col mx-auto lg:flex-row gap-3">
+          <div className="flex flex-col mx-auto lg:mt-0 mt-4 lg:flex-row gap-3">
 
             <Link href='/transitions'>
-            <Button
-              color="white"
-              variant="text"
-              className="relative mx-auto w-80 lg:w-40 h-14 group text-[#4A1525] overflow-hidden  bg-[#d9bf77] rounded-none shadow hover:border hover:border-orange-400 shadow-orange-100 transition-all duration-400" onResize={undefined} onResizeCapture={undefined}>
-              <span className="relative z-10">
-                Get Started
-              </span>
-            </Button>
+              <Button
+                color="white"
+                variant="text"
+                className="relative mx-auto w-80 lg:w-40 h-14 group text-[#4A1525] overflow-hidden  bg-[#d9bf77] rounded-none shadow hover:border hover:border-orange-400 shadow-orange-100 transition-all duration-400" onResize={undefined} onResizeCapture={undefined}>
+                <span className="relative z-10">
+                  Get Started
+                </span>
+              </Button>
             </Link>
-            <Button
-              color="white"
-              variant="text"
-              onClick={() => {
-                console.log('first')
-              }}
-              className="relative w-80 lg:w-40 h-14 group text-[#4A1525] overflow-hidden  bg-[#d9bf77] rounded-none shadow hover:border hover:border-orange-400 shadow-orange-100 transition-all duration-400" onResize={undefined} onResizeCapture={undefined}>
-              <span className="relative z-10">
-                Login | Register
-              </span>
-            </Button>
+            <Link href={'/register'}>
+              <Button
+                color="white"
+                variant="text"
+                className="relative w-80 lg:w-40 h-14 group text-[#4A1525] overflow-hidden  bg-[#d9bf77] rounded-none shadow hover:border hover:border-orange-400 shadow-orange-100 transition-all duration-400" onResize={undefined} onResizeCapture={undefined}>
+                <span className="relative z-10">
+                  Login | Register
+                </span>
+              </Button>
+            </Link>
 
           </div>
 

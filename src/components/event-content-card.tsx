@@ -6,6 +6,7 @@ import {
   CardBody,
   Avatar,
 } from "@material-tailwind/react";
+import { useRouter } from "next/navigation";
 
 interface EventContentCardProps {
   title: string;
@@ -23,6 +24,7 @@ export function EventContentCard({
   panel,
   img,
 }: EventContentCardProps) {
+  const router = useRouter();
   return (
     <Card
       color="transparent"
@@ -51,39 +53,42 @@ export function EventContentCard({
           {des}
         </Typography>
 
-        <div className="flex flex-row gap-10">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-row gap-14 justify-center lg:justify-start">
+          
             <Avatar
               variant="circular"
               src="/logos/spotify-logo.png"
-              alt="spotify"
+              className="hover:cursor-pointer"
+              alt="facebook"
               size="lg" onResize={undefined} onResizeCapture={undefined}
+              onClick={()=>{
+                router.push('instagram')
+              }}
             />
-            <div>
-              <Typography variant="h6" color="blue-gray" className="mb-0.5" onResize={undefined} onResizeCapture={undefined}>
-                {name}
-              </Typography>
-              <Typography variant="small" className="font-normal !text-gray-500" onResize={undefined} onResizeCapture={undefined}>
-                {position}
-              </Typography>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
+        
+         <Avatar
+              variant="circular"
+              src="/logos/spotify-logo.png"
+              className="hover:cursor-pointer"
+              alt="facebook"
+              size="lg" onResize={undefined} onResizeCapture={undefined}
+              onClick={()=>{
+                router.push('instagram')
+              }}
+            />
+
             <Avatar
               variant="circular"
               src="/logos/spotify-logo.png"
-              alt="spotify"
+              className="hover:cursor-pointer"
+              alt="facebook"
               size="lg" onResize={undefined} onResizeCapture={undefined}
+              onClick={()=>{
+                router.push('instagram')
+              }}
             />
-            <div>
-              <Typography variant="h6" color="blue-gray" className="mb-0.5" onResize={undefined} onResizeCapture={undefined}>
-                {name}
-              </Typography>
-              <Typography variant="small" className="font-normal !text-gray-500" onResize={undefined} onResizeCapture={undefined}>
-                {position}
-              </Typography>
-            </div>
-          </div>
+
+
         </div>
 
 

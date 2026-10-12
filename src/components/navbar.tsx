@@ -130,6 +130,14 @@ export function Navbar() {
           )}
 
 
+          <NavButtonLG onClick={() => router.push('/prising')} active={pathname == '/prising' ? true: false} border="black" >
+            Prising
+          </NavButtonLG>
+
+          <NavButtonLG onClick={() => router.push('/testimony')} active={pathname == '/testimony' ? true: false} border="black" >
+            Testimony
+          </NavButtonLG>
+
           <NavButtonLG onClick={() => router.push('/transitions')} active={pathname == '/transitions' ? true: false} border="black" >
             Transitions
           </NavButtonLG>
@@ -184,8 +192,22 @@ export function Navbar() {
           )}
 
           <div className="mt-6 flex flex-col items-center gap-4">
+            <Link href={'/prising'} className="!w-full">
+              <Button variant="text" className={`!w-full ${pathname == '/prising' && 'bg-gray-900/15 border-b-2 border-black'}`} onResize={undefined} onResizeCapture={undefined}
+              >
+                Prising
+
+              </Button>
+            </Link>
+            <Link href={'/testimony'} className="!w-full">
+              <Button variant="text" className={`!w-full ${pathname == '/testimony' && 'bg-gray-900/15 border-b-2 border-black'}`} onResize={undefined} onResizeCapture={undefined}
+              >
+                Testimony
+
+              </Button>
+            </Link>
             <Link href={'/transitions'} className="!w-full">
-              <Button variant="text" className={`!w-full ${pathname == '/transitions' && 'bg-gray-900/15'}`} onResize={undefined} onResizeCapture={undefined}
+              <Button variant="text" className={`!w-full ${pathname == '/transitions' && 'bg-gray-900/15 border-b-2 border-black'}`} onResize={undefined} onResizeCapture={undefined}
               >
                 Transitions
 

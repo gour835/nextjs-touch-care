@@ -5,9 +5,9 @@ import { Navbar, Footer } from "@/components";
 // sections
 import Hero from "./hero";
 import SponsoredBy from "./sponsored-by";
-import AboutEvent from "./about-event";
+import Transformations from "./transformations";
 import OurStats from "./our-stats";
-import EventContent from "./event-content";
+import Testemony from "./testemony";
 import Faq from "./faq";
 import Benifits from "./benifits";
 
@@ -19,9 +19,9 @@ export default async function Portfolio() {
       <Hero />
       <Benifits/>
       {/* <SponsoredBy /> */}
-      <AboutEvent />
+      <Transformations />
       <OurStats />
-      <EventContent />
+      <Testemony />
       <Faq />
       <Footer />
     </>

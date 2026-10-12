@@ -1,7 +1,8 @@
 "use client";
 
-import { Typography } from "@material-tailwind/react";
+import { Button, Typography } from "@material-tailwind/react";
 import AboutCard from "@/components/about-card";
+import Link from "next/link";
 
 const EVENT_INFO = [
   {
@@ -11,11 +12,11 @@ const EVENT_INFO = [
   {
     title: "After",
     background: "bg-[url('/image/bg_4.jpg')]"
-    
+
   },
 ];
 
-export function AboutEvent() {
+export function Transformations() {
   return (
     <section className="container mx-auto flex flex-col items-center px-4 py-10">
       <Typography variant="h6" className="text-center mb-2 text-[#d9bf77] font-[inherit]" color="inherit" onResize={undefined} onResizeCapture={undefined}>
@@ -34,8 +35,13 @@ export function AboutEvent() {
           <AboutCard key={idx} {...props} />
         ))}
       </div>
+      <Link href={'/transitions'}>
+        <Button className="bg-amber-200 text-black m-10  hover:scale-105 transition-all duration-300 font-[inherit] text-sm font-light hover:font-medium" onResize={undefined} onResizeCapture={undefined}>
+          See More Transitions
+        </Button>
+      </Link>
     </section>
   );
 }
 
-export default AboutEvent;
+export default Transformations;
