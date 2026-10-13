@@ -41,9 +41,9 @@ export function TreatmentsCard({
         <Typography variant="h4" color="blue-gray" className="mb-4 font-medium font-[inherit] text-[#4A1525]" onResize={undefined} onResizeCapture={undefined}>
           {title}
         </Typography>
-        <ul  className=" mb-12 md:w-10/12 font-medium font-[inherit] text-[#4A1525]/55 flex flex-col gap-2 text-md" >
+        <ul  className=" mb-12 md:w-10/12 font-medium font-[inherit] text-[#4A1525]/55 flex flex-col gap-2 text-md list-disc list-inside" >
           {sub?.map((sub,index)=>(
-            <li key={index} className="list-item">
+            <li key={index}>
               {sub}
             </li>
           ))}
