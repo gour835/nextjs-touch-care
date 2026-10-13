@@ -10,6 +10,7 @@ import OurStats from "./our-stats";
 import Testemony from "./testemony";
 import Faq from "./faq";
 import Benifits from "./benifits";
+import Treatments from "./treatments";
 
 
 export default async function Portfolio() {
@@ -21,6 +22,7 @@ export default async function Portfolio() {
       {/* <SponsoredBy /> */}
       <Transformations />
       <OurStats />
+      <Treatments />
       <Testemony />
       <Faq />
       <Footer />

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Button,
   Tab,
   Tabs,
   TabsHeader,
@@ -8,6 +9,8 @@ import {
 } from "@material-tailwind/react";
 
 import EventContentCard from "@/components/event-content-card";
+import Link from "next/link";
+
 
 
 const EVENT_CONTENT = [
@@ -39,7 +42,7 @@ const EVENT_CONTENT = [
 
 export function Testimony() {
   return (
-    <section className="py-8 px-8 lg:py-20">
+    <section className="flex flex-col justify-center items-center py-8 px-8 lg:py-20">
       <div className="mx-auto container">
       <Typography variant="h3" className="font-[inherit]  text-[#4A1525] ml-5" onResize={undefined} onResizeCapture={undefined} >
         Testimonials
@@ -48,6 +51,11 @@ export function Testimony() {
           <EventContentCard key={idx} {...props} />
         ))}
       </div>
+      <Link href={'/testimony'}>
+        <Button className="bg-amber-200 text-black m-10  hover:scale-105 transition-all duration-300 font-[inherit] text-sm font-light hover:font-medium" onResize={undefined} onResizeCapture={undefined}>
+          See More Testimonials
+        </Button>
+      </Link>
     </section>
   );
 }
