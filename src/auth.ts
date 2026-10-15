@@ -28,8 +28,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         return {
           id: user._id.toString(),
-          name: user.name, 
-          email: user.email, 
+          name: user.name,
+          email: user.email,
           image: user.image || null
         };
       }
@@ -42,12 +42,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const existing_user = await User.findOne({ email: user.email });
           if (!existing_user) {
             const hashedPassword = await bcrypt.hash('google_login', 10);
-            await User.create({ 
-              name: user.name, 
+            await User.create({
+              name: user.name,
               email: user.email,
-              image: user.image, 
-              password: hashedPassword });
-          }else if (!existing_user.image && user.image) {
+              image: user.image,
+              password: hashedPassword
+            });
+          } else if (!existing_user.image && user.image) {
             existing_user.image = user.image;
             await existing_user.save();
           }
