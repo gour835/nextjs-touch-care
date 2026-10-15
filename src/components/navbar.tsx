@@ -130,8 +130,8 @@ export function Navbar() {
           )}
 
 
-          <NavButtonLG onClick={() => router.push('/prising')} active={pathname == '/prising' ? true: false} border="black" >
-            Prising
+          <NavButtonLG onClick={() => router.push('/services')} active={pathname == '/services' ? true: false} border="black" >
+            Services
           </NavButtonLG>
 
           <NavButtonLG onClick={() => router.push('/testimony')} active={pathname == '/testimony' ? true: false} border="black" >
@@ -192,10 +192,10 @@ export function Navbar() {
           )}
 
           <div className="mt-6 flex flex-col items-center gap-4">
-            <Link href={'/prising'} className="!w-full">
-              <Button variant="text" className={`!w-full ${pathname == '/prising' && 'bg-gray-900/15 border-b-2 border-black'}`} onResize={undefined} onResizeCapture={undefined}
+            <Link href={'/services'} className="!w-full">
+              <Button variant="text" className={`!w-full ${pathname == '/services' && 'bg-gray-900/15 border-b-2 border-black'}`} onResize={undefined} onResizeCapture={undefined}
               >
-                Prising
+                Services
 
               </Button>
             </Link>

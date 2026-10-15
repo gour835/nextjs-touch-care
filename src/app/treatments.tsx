@@ -6,6 +6,7 @@ import {
 } from "@material-tailwind/react";
 
 import TreatmentsCard from "@/components/treatments-card";
+import Link from "next/link";
 
 
 
@@ -96,9 +97,12 @@ export default function Treatments() {
                 <TreatmentsCard {...EVENT_CONTENT[4]} />
               </div>
             )}
+
+            <Link href={'services'}>
             <Button onResize={undefined} onResizeCapture={undefined}>
               Visit CheckOut Page
             </Button>
+            </Link>
           </div>
         </div>
       </div>
