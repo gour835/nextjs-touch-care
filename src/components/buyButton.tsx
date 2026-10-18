@@ -1,17 +1,20 @@
 "use client";
 
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import Script from "next/script";
 import { createOrderId } from "@/app/actions/razorpay";
+import { useRouter } from "next/navigation";
+
 
 
 export default function PurchaseButton() {
   const [isLoading, setIsLoading] = React.useState(false);
+  const [price, setPrice] = useState(100);
+  const router = useRouter();
 
   const handlePayment = async () => {
     setIsLoading(true);
-    const price = 100; // Replace with dynamic price
     try {
       const orderId: string = await createOrderId(price, "INR");
       const options = {
@@ -31,6 +34,9 @@ export default function PurchaseButton() {
 
             alert("Payment Successful!");
             console.log(paymentResponse.data);
+            router.push('/')
+
+            
           } catch (error) {
             alert("Payment verification failed. Please contact support.");
             console.error(error);
@@ -61,8 +67,11 @@ export default function PurchaseButton() {
 
   return (
     <>
+      <input type="text" name="price" onChange={(e) => {
+        setPrice(Number(e.target.value));
+      }} />
       <button
-        className="bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl hover:bg-emerald-600 transition-all duration-300 hover:shadow-lg hover:scale-105"
+        className="bg-emerald-700 font-semibold px-4 py-2 rounded-xl hover:bg-emerald-600 transition-all duration-300 hover:shadow-lg hover:scale-105"
         onClick={handlePayment}
         disabled={isLoading}
       >

@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
         HMAC.update(`${razorpay_order_id}|${razorpay_payment_id}`);
         const generatedSignature = HMAC.digest("hex");
         if (generatedSignature === razorpay_signature) {
-            return NextResponse.json({ message: "Payment verified successfully", success: true })
+            return NextResponse.json({ message: "Payment verified successfully", success: true, razorpay_payment_id, razorpay_order_id })
         } else {
             return NextResponse.json({ error: "Invalid signature", success: false }, { status: 400 })
         }
