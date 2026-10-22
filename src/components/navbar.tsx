@@ -103,31 +103,7 @@ export function Navbar() {
 
         <div className=" items-center gap-4 hidden lg:flex ">
 
-          {IsUserLoggedIn && (
-            <div className={`flex items-center gap-1 p-1 rounded-lg bg-[black] `}>
-              {session?.user?.image && !imgError ? (
-                <img
-                  src={session.user.image}
-                  alt="" // Keep alt empty so broken alt text won't render inside the circle
-                  referrerPolicy="no-referrer" // Allows loading Google avatar images without 403 errors
-                  onError={() => setImgError(true)}
-                  className="w-10 h-10 rounded-lg object-cover border border-purple-500/30"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-lg bg-purple-600 text-white flex items-center justify-center font-bold text-lg shadow-md shrink-0">
-                  {session?.user?.name ? session.user.name.charAt(0).toUpperCase() : "U"}
-                </div>
-              )}
-
-              {/* Optional: Display the user's name next to the avatar */}
-              {session?.user?.name && (
-                <span className={`w-full h-10 flex justify-center items-center rounded-lg p-2  text-sm font-medium text-white`}>
-                  {session.user.name}
-                </span>
-              )}
-
-            </div>
-          )}
+          
 
 
           <NavButtonLG onClick={() => router.push('/services')} active={pathname == '/services' ? true: false} border="black" >
@@ -145,6 +121,32 @@ export function Navbar() {
           <NavButtonLG onClick={HandleLoggin} border={`${IsUserLoggedIn? 'red-500': 'black'}`} >
             Log {IsUserLoggedIn ? 'Out' : 'In'}
           </NavButtonLG>
+
+          {IsUserLoggedIn && (
+            <div className={`flex items-center gap-1 p-1 rounded-lg bg-white/40 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] `}>
+              {session?.user?.image && !imgError ? (
+                <img
+                  src={session.user.image}
+                  alt="" // Keep alt empty so broken alt text won't render inside the circle
+                  referrerPolicy="no-referrer" // Allows loading Google avatar images without 403 errors
+                  onError={() => setImgError(true)}
+                  className="w-10 h-10 rounded-full object-cover border border-purple-500/30"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-lg shadow-md shrink-0">
+                  {session?.user?.name ? session.user.name.charAt(0).toUpperCase() : "U"}
+                </div>
+              )}
+
+              {/* Optional: Display the user's name next to the avatar */}
+              {session?.user?.name && (
+                <span className={`w-full h-10 flex justify-center items-center rounded-lg p-2  text-xs font-semibold text-gray-800`}>
+                  {session.user.name.toUpperCase()}
+                </span>
+              )}
+
+            </div>
+          )}
 
         </div>
         {/* /Desktop Nav */}

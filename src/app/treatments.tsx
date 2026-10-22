@@ -7,6 +7,7 @@ import {
 
 import TreatmentsCard from "@/components/treatments-card";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 
 
@@ -20,7 +21,7 @@ const EVENT_CONTENT = [
       '“Party-Ready Makeup” (premium brands, long-wear finish)'
     ],
     img: "/image/beauty-product.png",
-    
+
   },
   {
     title: "Advanced Skin Treatments",
@@ -67,7 +68,7 @@ const EVENT_CONTENT = [
 
 ];
 
-{/* <a href="https://www.flaticon.com/free-icons/cosmetics" title="cosmetics icons">Cosmetics icons created by kliwir art - Flaticon</a> */}
+{/* <a href="https://www.flaticon.com/free-icons/cosmetics" title="cosmetics icons">Cosmetics icons created by kliwir art - Flaticon</a> */ }
 
 export default function Treatments() {
   return (
@@ -99,9 +100,10 @@ export default function Treatments() {
             )}
 
             <Link href={'services'}>
-            <Button onResize={undefined} onResizeCapture={undefined}>
-              Visit CheckOut Page
-            </Button>
+              <Button className="flex justify-center items-center hover:scale-105" onResize={undefined} onResizeCapture={undefined}>
+                Servises Detailes
+                <ArrowRight />
+              </Button>
             </Link>
           </div>
         </div>

@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Script from "next/script";
 import { createOrderId } from "@/app/actions/razorpay";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 
 
@@ -12,6 +13,9 @@ export default function PurchaseButton() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [price, setPrice] = useState(100);
   const router = useRouter();
+  const { data } = useSession();
+  const user = data?.user
+
 
   const handlePayment = async () => {
     setIsLoading(true);
@@ -21,7 +25,7 @@ export default function PurchaseButton() {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: price * 100,
         currency: "INR",
-        name: "YOUR_COMPANY_NAME", // Replace with dynamic company name
+        name: user?.name, // Replace with dynamic company name
         description: "Payment for your order", // Replace with dynamic order description
         order_id: orderId,
         handler: async function (response: any) {
