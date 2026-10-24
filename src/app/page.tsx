@@ -12,6 +12,7 @@ import Faq from "./faq";
 import Benifits from "./benifits";
 import Treatments from "./treatments";
 import { getAllServices } from "./actions/action";
+import { Toaster } from "react-hot-toast";
 
 
 export default async function Portfolio() {
@@ -19,6 +20,7 @@ export default async function Portfolio() {
   const services = serviceResponse?.success && serviceResponse.data
   return (
     <>
+    <Toaster/>
       <Navbar/>
       <Hero />
       <Benifits/>

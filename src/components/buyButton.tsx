@@ -6,6 +6,7 @@ import Script from "next/script";
 import { createOrderId } from "@/app/actions/razorpay";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 
 
@@ -36,19 +37,19 @@ export default function PurchaseButton({ price }: { price: number }) {
               razorpay_signature: response.razorpay_signature,
             });
 
-            alert("Payment Successful!");
+            toast.success("Payment Successful!");
             console.log(paymentResponse.data);
             router.push('/')
 
 
           } catch (error) {
             alert("Payment verification failed. Please contact support.");
-            console.error(error);
+            console.log(error);
           }
         },
         prefill: {
-          name: "YOUR_NAME", // Replace with dynamic user data
-          email: "YOUR_EMAIL", // Replace with dynamic user data
+          name: user?.name, // Replace with dynamic user data
+          email: user?.email, // Replace with dynamic user data
         },
         theme: {
           color: "#3399cc",
@@ -57,13 +58,13 @@ export default function PurchaseButton({ price }: { price: number }) {
 
       const razorpay = new (window as any).Razorpay(options);
       razorpay.on("payment.failed", function (response: any) {
-        alert("Payment failed");
-        console.error(response.error);
+        toast.error("Payment failed");
+        console.log(response.error);
       });
       razorpay.open();
     } catch (error) {
-      alert("Payment failed. Please try again.");
-      console.error(error);
+      toast.error("Payment failed. Please try again.");
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
