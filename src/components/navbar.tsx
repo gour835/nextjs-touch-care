@@ -15,6 +15,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import NavButtonLG from "./nav-button";
+import Image from "next/image";
 
 
 export function Navbar() {
@@ -61,7 +62,7 @@ export function Navbar() {
   }
   useEffect(() => {
     update();
-    
+
   }, [pathname])
 
   if (sessionStatus === "loading") {
@@ -87,8 +88,10 @@ export function Navbar() {
           className="text-lg font-bold font-[inherit] group" onResize={undefined} onResizeCapture={undefined}
         >
           <Link href={'/'} className="flex flex-row gap-2">
-            <img
-              src={'image/logo.png'}
+            <Image
+              width={ 10}
+              height={ 10}
+              src={'/image/logo.png'}
               alt="logo"
               className="w-10 h-10 object-fit "
             />
@@ -103,22 +106,22 @@ export function Navbar() {
 
         <div className=" items-center gap-4 hidden lg:flex ">
 
-          
 
 
-          <NavButtonLG onClick={() => router.push('/services')} active={pathname == '/services' ? true: false} border="black" >
+
+          <NavButtonLG onClick={() => router.push('/services')} active={pathname.includes('/services') ? true : false} border="black" >
             Services
           </NavButtonLG>
 
-          <NavButtonLG onClick={() => router.push('/testimony')} active={pathname == '/testimony' ? true: false} border="black" >
+          <NavButtonLG onClick={() => router.push('/testimony')} active={pathname == '/testimony' ? true : false} border="black" >
             Testimony
           </NavButtonLG>
 
-          <NavButtonLG onClick={() => router.push('/transitions')} active={pathname == '/transitions' ? true: false} border="black" >
+          <NavButtonLG onClick={() => router.push('/transitions')} active={pathname == '/transitions' ? true : false} border="black" >
             Transitions
           </NavButtonLG>
 
-          <NavButtonLG onClick={HandleLoggin} border={`${IsUserLoggedIn? 'red-500': 'black'}`} >
+          <NavButtonLG onClick={HandleLoggin} border={`${IsUserLoggedIn ? 'red-500' : 'black'}`} >
             Log {IsUserLoggedIn ? 'Out' : 'In'}
           </NavButtonLG>
 

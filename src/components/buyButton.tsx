@@ -9,9 +9,9 @@ import { useSession } from "next-auth/react";
 
 
 
-export default function PurchaseButton() {
+export default function PurchaseButton({ price }: { price: number }) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [price, setPrice] = useState(100);
+
   const router = useRouter();
   const { data } = useSession();
   const user = data?.user
@@ -40,7 +40,7 @@ export default function PurchaseButton() {
             console.log(paymentResponse.data);
             router.push('/')
 
-            
+
           } catch (error) {
             alert("Payment verification failed. Please contact support.");
             console.error(error);
@@ -71,15 +71,13 @@ export default function PurchaseButton() {
 
   return (
     <>
-      <input type="text" name="price" onChange={(e) => {
-        setPrice(Number(e.target.value));
-      }} />
+
       <button
-        className="bg-emerald-700 font-semibold px-4 py-2 rounded-xl hover:bg-emerald-600 transition-all duration-300 hover:shadow-lg hover:scale-105"
+        className="bg-green-400 font-semibold px-4 py-2 rounded-lg hover:bg-green-300 transition-all duration-300 hover:shadow-lg hover:scale-105"
         onClick={handlePayment}
         disabled={isLoading}
       >
-        {isLoading ? "Processing..." : "Buy Now"}
+        {isLoading ? "Processing..." : `Pay ₹${price}`}
       </button>
       <Script
         id="razorpay-checkout-js"

@@ -9,3 +9,16 @@ export async function getAllServices() {
         console.log('error fetching resource', error);
     }
 }
+
+export async function getService(title: string) {
+    try {
+        const services = await ServicesModel.findOne({title}).lean();
+        console.log(services);
+        if(!services){
+            return {success: false}
+        }
+        return {success: true, data: JSON.parse(JSON.stringify(services))}
+    } catch (error) {
+        console.log('error fetching resource', error);
+    }
+}

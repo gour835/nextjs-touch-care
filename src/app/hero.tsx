@@ -2,6 +2,8 @@
 "use client";
 
 import { Button, Typography } from "@material-tailwind/react";
+import Image from "next/image";
+
 import Link from "next/link";
 
 
@@ -15,8 +17,10 @@ function Hero() {
 
           <Typography variant="h1" color="inherit" className="lg:max-w-5xl w-full  text-3xl lg:text-5xl font-[inherit] flex flex-col justify-center items-center gap-2" onResize={undefined} onResizeCapture={undefined}>
             <div className="flex flex-row gap-2 text-[#d9bf77]">
-              <img
-                src={'image/logo.png'}
+              <Image
+              width={20}
+              height={20}
+                src={'/image/logo.png'}
                 alt="logo"
                 className="w-20 h-20 lg:w-16 lg:h-16 object-fit "
               />
