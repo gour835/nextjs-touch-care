@@ -3,16 +3,17 @@
 import { Button, Typography } from "@material-tailwind/react";
 import PurchaseButton from "./buyButton";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { ServiceModel } from "./service-model";
 interface CheckoutProps {
   title: string;
   sub: Array<string>;
   price: number;
+  children: React.ReactNode;
 }
 
-function Checkout({ title, sub, price }: CheckoutProps) {
+function Checkout({ title, sub, price, children }: CheckoutProps) {
   const { status} = useSession();
 
  useEffect(() => {
@@ -56,7 +57,8 @@ function Checkout({ title, sub, price }: CheckoutProps) {
           </Typography>
 
           {/* <PurchaseButton price={price}/> */}
-          <ServiceModel/>
+          {children}
+         
 
         </div>
       </div>

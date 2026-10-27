@@ -18,7 +18,12 @@ import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-export function ServiceModel() {
+interface TitleProps{
+    title: string;
+    _id: string;
+}
+
+export function ServiceModel({ titles, titleValue  }: { titles: TitleProps[], titleValue: string }) {
     const [open, setOpen] = React.useState(false);
 
     const session = useSession();
@@ -26,13 +31,14 @@ export function ServiceModel() {
     const path = usePathname()
 
     const handleOpen = () => {
-        if(session.status != 'authenticated'){
+        if (session.status != 'authenticated') {
             toast.error('Please Login first');
             router.push(`/login?redirect=${encodeURIComponent(path)}`);
-        }else{
+        } else {
             setOpen(!open);
         }
     }
+    console.log(titleValue);
 
     return (
         <>
@@ -45,7 +51,7 @@ export function ServiceModel() {
                         Schedule the Appointment
                     </Typography>
                     <Typography className="mt-1 font-normal text-gray-600" onResize={undefined} onResizeCapture={undefined}>
-                        Keep your records up-to-date and organized.
+                        Choose the time which sutes you
                     </Typography>
                     <IconButton
                         size="sm"
@@ -88,10 +94,16 @@ export function ServiceModel() {
                             placeholder="1"
                             labelProps={{
                                 className: "hidden",
-                            }} onResize={undefined} onResizeCapture={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}            >
-                            <Option>Clothing</Option>
-                            <Option>Fashion</Option>
-                            <Option>Watches</Option>
+                            }} onResize={undefined} onResizeCapture={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}            
+                            value={titleValue}
+                            >
+                                {titles.map((obj, idx)=>{
+                                    return(
+                                        <Option key={idx}>
+                                            {obj.title}
+                                        </Option>
+                                    )
+                                })}
                         </Select>
                     </div>
                     <div className="flex gap-4">
