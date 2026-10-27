@@ -7,6 +7,7 @@ import {
   Avatar,
 } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface EventContentCardProps {
   title: string;
@@ -19,8 +20,6 @@ interface EventContentCardProps {
 export function EventContentCard({
   title,
   des,
-  name,
-  position,
   panel,
   img,
 }: EventContentCardProps) {
@@ -54,39 +53,35 @@ export function EventContentCard({
         </Typography>
 
         <div className="flex flex-row gap-14 justify-center lg:justify-start">
-          
+          <Link href={'/instagram'}>
+          <Avatar
+            variant="circular"
+            src="/logos/instagram.png"
+            className="hover:cursor-pointer"
+            alt="instagram link"
+            size="lg" onResize={undefined} onResizeCapture={undefined}
+            />
+            </Link>
+          <Link href={'facebood'}>
             <Avatar
               variant="circular"
-              src="/logos/spotify-logo.png"
+              src="/logos/status.png"
               className="hover:cursor-pointer"
               alt="facebook"
               size="lg" onResize={undefined} onResizeCapture={undefined}
-              onClick={()=>{
-                router.push('instagram')
-              }}
-            />
-        
-         <Avatar
-              variant="circular"
-              src="/logos/spotify-logo.png"
-              className="hover:cursor-pointer"
-              alt="facebook"
-              size="lg" onResize={undefined} onResizeCapture={undefined}
-              onClick={()=>{
-                router.push('instagram')
-              }}
-            />
 
-            <Avatar
-              variant="circular"
-              src="/logos/spotify-logo.png"
-              className="hover:cursor-pointer"
-              alt="facebook"
-              size="lg" onResize={undefined} onResizeCapture={undefined}
-              onClick={()=>{
-                router.push('instagram')
-              }}
             />
+          </Link>
+
+          <Link href={'youtube'}>
+          <Avatar
+            variant="circular"
+            src="/logos/play.png"
+            className="hover:cursor-pointer"
+            alt="youtube"
+            size="lg" onResize={undefined} onResizeCapture={undefined}
+            />
+            </Link>
 
 
         </div>

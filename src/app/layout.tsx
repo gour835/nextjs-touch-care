@@ -4,6 +4,7 @@ import { Prata } from "next/font/google";
 import { ClientLayout, FixedPlugin } from "@/components";
 import Script from "next/script";
 import Providers from "@/components/providers";
+import { Toaster } from "react-hot-toast";
 
 const prata = Prata({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className={prata.className}>
         <Providers>
           <ClientLayout>
+            <Toaster position="bottom-center"/>
             {children}
             <FixedPlugin />
           </ClientLayout>

@@ -19,8 +19,21 @@ export default function PurchaseButton({ price }: { price: number }) {
 
 
   const handlePayment = async () => {
+
     setIsLoading(true);
     try {
+      if (!user) {
+        toast("Please login to complete your purchase", {
+          icon: "⚠️",
+          style: {
+            borderRadius: "8px",
+            background: "#fffbe6", // soft yellow
+            color: "#856404", // dark amber text
+            border: "1px solid #ffebaAvailable",
+          },
+        });
+        return //router.push('/login');
+      }
       const orderId: string = await createOrderId(price, "INR");
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
