@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, { useActionState } from "react";
 import {
     Input,
     Option,
@@ -17,6 +17,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { saveSchedule } from "@/app/actions/action";
 
 interface TitleProps {
     title: string;
@@ -25,7 +26,7 @@ interface TitleProps {
 
 export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], titleValue: string }) {
     const [open, setOpen] = React.useState(false);
-    const [titleState, setTitleState] = React.useState(titleValue ?? '');
+    const [titleState, setTitleState] = React.useState<string>(titleValue ?? '');
 
     const session = useSession();
     const router = useRouter();
@@ -39,7 +40,9 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
             setOpen(!open);
         }
     }
-    console.log(titleState);
+    console.log('title state',titleState);
+
+    const [state, action, isPending] = useActionState(saveSchedule, undefined);
 
     return (
         <>
@@ -67,7 +70,7 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                 </DialogHeader>
                 {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                 <DialogBody className="space-y-4 pb-6" >
-                    <form >
+                    <form action={action}>
 
 
                         <div>
@@ -98,7 +101,7 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                 className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}            >
                                 Category
                             </Typography>
-                            <input type="hidden" name="selectedTitle" value={titleState} />
+                            <input type="hidden" name="title" value={titleState} />
                             {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                             <Select
                                 className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-800 ring-4 ring-transparent placeholder:text-gray-600 focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
@@ -113,23 +116,24 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                             >
                                 {titles.map((obj, idx) => {
                                     return (
-                                        <Option key={idx}>
+                                        <Option value={obj.title} key={idx}>
                                             {obj.title}
                                         </Option>
                                     )
                                 })}
                             </Select>
                         </div>
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 my-2">
                             <div className="w-full">
                                 <Typography
                                     variant="small"
                                     color="blue-gray"
                                     className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}              >
-                                    Weight
+                                    Date
                                 </Typography>
                                 {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                                 <Input
+                                type="date"
                                     color="gray"
                                     size="lg"
                                     placeholder="eg. <8.8oz | 250g"
@@ -147,10 +151,11 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                     variant="small"
                                     color="blue-gray"
                                     className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}              >
-                                    Size
+                                    Time
                                 </Typography>
                                 {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                                 <Input
+                                type="time"
                                     color="gray"
                                     size="lg"
                                     placeholder="eg. US 8"
@@ -164,30 +169,12 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                     }}  />
                             </div>
                         </div>
-                        <div>
-                            <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}            >
-                                Description (Optional)
-                            </Typography>
-                            {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
-                            <Textarea
-                                rows={7}
-                                placeholder="eg. This is a white shoes with a comfortable sole."
-                                className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-600 ring-4 ring-transparent focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
-                                labelProps={{
-                                    className: "hidden",
-                                }}  />
-                        </div>
-                    </form>
-                </DialogBody>
-                {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                <DialogFooter >
-                    <Button className="ml-auto" onClick={handleOpen} onResize={undefined} onResizeCapture={undefined}>
+                       
+                    <Button type="submit" className="ml-auto"  onResize={undefined} onResizeCapture={undefined}>
                         Add Product
                     </Button>
-                </DialogFooter>
+                    </form>
+                </DialogBody>
             </Dialog>
         </>
     );

@@ -38,12 +38,31 @@ export const LoginFormSchema = z.object({
   redirect: z.string().optional().default("/"),
 })
 
+export const ScheduleFormSchema = z.object({
+  userId: z
+    .string()
+    .trim(),
+  serviceId: z
+    .string()
+    .trim(),
+  date: z.coerce.date({
+    error: "Please select a valid date",
+  }),
+
+  // Validates time strings like "14:30" or "09:00:00"
+  time: z.string().time({
+    message: "Invalid time format (expected HH:MM)",
+  }),
+})
+
 export type FormState =
   | {
     errors?: {
       name?: string[]
       email?: string[]
       password?: string[]
+      date?: string[]
+      time?: string[]
     }
     message?: string;
     fields?: {
