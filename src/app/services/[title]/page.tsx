@@ -1,7 +1,10 @@
 import { getService } from "@/app/actions/action";
+import { auth } from "@/auth";
 import { Navbar } from "@/components";
 import Checkout from "@/components/checkout";
 import { notFound } from "next/navigation";
+import toast from "react-hot-toast";
+
 
 export default async function page(props: {params: Promise<{title: string}>}){
     const params = await props.params;
@@ -13,7 +16,7 @@ export default async function page(props: {params: Promise<{title: string}>}){
         notFound()
     }
     const service = response.data;
-
+   
     return(
         <>
         <Navbar/>

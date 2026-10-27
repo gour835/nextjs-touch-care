@@ -29,10 +29,14 @@ export default function PurchaseButton({ price }: { price: number }) {
             borderRadius: "8px",
             background: "#fffbe6", // soft yellow
             color: "#856404", // dark amber text
-            border: "1px solid #ffebaAvailable",
+            border: "1px solid red",
           },
         });
-        return //router.push('/login');
+        setTimeout(() => {
+          router.push('/login');
+          
+        }, 1500);
+        return 
       }
       const orderId: string = await createOrderId(price, "INR");
       const options = {

@@ -2,6 +2,9 @@
 
 import { Button, Typography } from "@material-tailwind/react";
 import PurchaseButton from "./buyButton";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 interface CheckoutProps {
   title: string;
   sub: Array<string>;
@@ -9,6 +12,15 @@ interface CheckoutProps {
 }
 
 function Checkout({ title, sub, price }: CheckoutProps) {
+  const { status} = useSession();
+
+ useEffect(() => {
+  if (status === "unauthenticated") {
+    toast.error("Please login before checkout", {
+      id: "auth-warning-toast", // Ensures only one toast with this ID exists at a time
+    });
+  }
+}, [status]);
   return (
     // <div className="relative min-h-screen w-full bg-[url('/image/bg_1.jpg')] bg-cover bg-no-repeat bg-po">
     <div className="relative min-h-screen w-full bg-[url('/image/bg_3.jpg')] bg-cover bg-no-repeat">
