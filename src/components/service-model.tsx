@@ -49,7 +49,8 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
             {/* @ts-expect-error - Material Tailwind type mismatch fix */}
             <Dialog size="sm" open={open} handler={handleOpen} className="p-4">
 
-                <DialogHeader className="relative m-0 block" placeholder={undefined} onResize={undefined} onResizeCapture={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+                {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                <DialogHeader className="relative m-0 block" >
                     <Typography variant="h4" color="blue-gray" onResize={undefined} onResizeCapture={undefined}>
                         Schedule the Appointment
                     </Typography>
@@ -64,7 +65,8 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                         <XMarkIcon className="h-4 w-4 stroke-2" />
                     </IconButton>
                 </DialogHeader>
-                <DialogBody className="space-y-4 pb-6" placeholder={undefined} onResize={undefined} onResizeCapture={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+                {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                <DialogBody className="space-y-4 pb-6" >
                     <form >
 
 
@@ -75,6 +77,7 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                 className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}            >
                                 Name
                             </Typography>
+                            {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                             <Input
                                 color="gray"
                                 size="lg"
@@ -86,7 +89,7 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                 }}
                                 labelProps={{
                                     className: "hidden",
-                                }} crossOrigin={undefined} onResize={undefined} onResizeCapture={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+                                }}  />
                         </div>
                         <div>
                             <Typography
@@ -96,12 +99,13 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                 Category
                             </Typography>
                             <input type="hidden" name="selectedTitle" value={titleState} />
+                            {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                             <Select
                                 className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-800 ring-4 ring-transparent placeholder:text-gray-600 focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
                                 placeholder="1"
                                 labelProps={{
                                     className: "hidden",
-                                }} onResize={undefined} onResizeCapture={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}
+                                }} 
                                 value={titleState}
                                 onChange={(val) => {
                                     setTitleState(val || '');
@@ -124,6 +128,7 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                     className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}              >
                                     Weight
                                 </Typography>
+                                {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                                 <Input
                                     color="gray"
                                     size="lg"
@@ -135,7 +140,7 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                     }}
                                     labelProps={{
                                         className: "hidden",
-                                    }} crossOrigin={undefined} onResize={undefined} onResizeCapture={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+                                    }}  />
                             </div>
                             <div className="w-full">
                                 <Typography
@@ -144,6 +149,7 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                     className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}              >
                                     Size
                                 </Typography>
+                                {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                                 <Input
                                     color="gray"
                                     size="lg"
@@ -155,7 +161,7 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                     }}
                                     labelProps={{
                                         className: "hidden",
-                                    }} crossOrigin={undefined} onResize={undefined} onResizeCapture={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+                                    }}  />
                             </div>
                         </div>
                         <div>
@@ -165,17 +171,19 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                 className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}            >
                                 Description (Optional)
                             </Typography>
+                            {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                             <Textarea
                                 rows={7}
                                 placeholder="eg. This is a white shoes with a comfortable sole."
                                 className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-600 ring-4 ring-transparent focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
                                 labelProps={{
                                     className: "hidden",
-                                }} onResize={undefined} onResizeCapture={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+                                }}  />
                         </div>
                     </form>
                 </DialogBody>
-                <DialogFooter placeholder={undefined} onResize={undefined} onResizeCapture={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+                {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                <DialogFooter >
                     <Button className="ml-auto" onClick={handleOpen} onResize={undefined} onResizeCapture={undefined}>
                         Add Product
                     </Button>
