@@ -85,7 +85,7 @@ export default function Treatments({services}:{services: Record<string, any>}) {
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 max-w-8xl mx-auto w-full">
           {/* Left Side: 2x2 Grid (4 cards) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full md:w-2/3">
-            {services.slice(0, 4).map((props : ServiceProp, idx: number) => (
+            {services?.slice(0, 4).map((props : ServiceProp, idx: number) => (
               <div key={idx} className="w-full">
                 <TreatmentsCard {...props} />
               </div>
@@ -94,7 +94,7 @@ export default function Treatments({services}:{services: Record<string, any>}) {
 
           {/* Right Side: 1 card, perfectly centered vertically */}
           <div className="flex flex-col gap-10 items-center justify-center w-full md:w-1/3">
-            {services[4] && (
+            {Array.isArray(services) && services[4]  && (
               <div className="w-full">
                 <TreatmentsCard {...services[4]} />
               </div>
