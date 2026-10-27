@@ -53,14 +53,17 @@ export async function login(state: FormState, formData: FormData) {
   // Validate form fields
   const rawEmail = formData.get('email');
   const rawPassword = formData.get('password');
+  const rawRedirect = formData.get('redirect');
 
   const emailStr = typeof rawEmail === 'string' ? rawEmail : '';
   const passwordStr = typeof rawPassword === 'string' ? rawPassword : '';
+  const redirectStr = typeof rawRedirect === 'string' ? rawRedirect : '';
 
   // 1. Validate form fields
   const validatedFields = LoginFormSchema.safeParse({
     email: emailStr,
     password: passwordStr,
+    redirect: redirectStr,
   });
 
   if (!validatedFields.success) {
@@ -73,7 +76,8 @@ export async function login(state: FormState, formData: FormData) {
   // Call the provider or db to create a user...
 
   // 2. Prepare data for insertion into database
-  const { email, password } = validatedFields.data
+  const { email, password, redirect } = validatedFields.data
+  console.log(redirect);
 
   // 3. checking the user exists in the database
   const user = await User.findOne({ email });
@@ -98,7 +102,7 @@ export async function login(state: FormState, formData: FormData) {
   await signIn("credentials", {
     email,
     password,
-    redirectTo: "/?",
+    redirectTo: redirect,
   });
 }
 
@@ -112,6 +116,6 @@ export async function CheckEmailRegistered(email: string) {
   return !!user
 }
 
-export async function GoogleLogin() {
-  await signIn('google', { redirectTo: "/" })
+export async function GoogleLogin(redirect = '/') {
+  await signIn('google', { redirectTo: redirect })
 }

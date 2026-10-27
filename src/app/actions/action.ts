@@ -13,7 +13,7 @@ export async function getAllServices() {
 export async function getService(title: string) {
     try {
         const services = await ServicesModel.findOne({title}).lean();
-        console.log(services);
+        // console.log(services);
         if(!services){
             return {success: false}
         }

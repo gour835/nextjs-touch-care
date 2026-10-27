@@ -4,10 +4,14 @@ import { useActionState, useState } from "react";
 import { GoogleLogin, login } from "../actions/auth";
 import { Eye, EyeClosed } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 function Login() {
     const [showPass, setShowPass] = useState(false);
     const [state, action, isPending] = useActionState(login, undefined);
+    const params = useSearchParams();
+    const redirect = params.get('redirect') || '/';
+    console.log(redirect);
 
     return (
         <div className="w-full h-full max-w-[1200px] bg-[#13131a] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
@@ -51,6 +55,8 @@ function Login() {
               <input type="text" name="firstName" placeholder="First name" className="w-full md:w-1/2 bg-[#1c1c24] text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600" />
               <input type="text" name="lastName" placeholder="Last name" className="w-full md:w-1/2 bg-[#1c1c24] text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600" />
             </div> */}
+
+                        <input type="hidden" name="redirect" value={redirect} />
 
                         <div>
                             <input type="email" name="email" placeholder="Email" className="w-full bg-[#1c1c24] text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600" defaultValue={state?.fields?.email ?? ''} />
@@ -102,7 +108,7 @@ function Login() {
                                 className="group relative w-full flex items-center justify-center gap-2 bg-[#1c1c24] text-white rounded-lg p-3 hover:bg-[#25252e] transition-all"
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    GoogleLogin()
+                                    GoogleLogin(redirect)
                                 }}
                             >
                                 {/* 1. MANUALLY POSITIONED GLOW ZONES (Behind the button) */}

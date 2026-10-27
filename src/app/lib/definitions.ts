@@ -8,14 +8,14 @@ export const SignupFormSchema = z.object({
     .min(2, { error: 'Name must be at least 2 characters long.' })
     .trim(),
   email: z
-      .email({ error: 'Please enter a valid email.' })
-      .refine(async (email)=>{
-        const isRegistered = await CheckEmailRegistered(email);
-        return !isRegistered;
-      }, {
-        message: 'This Email is Already in Use'
-      })
-      .trim(),
+    .email({ error: 'Please enter a valid email.' })
+    .refine(async (email) => {
+      const isRegistered = await CheckEmailRegistered(email);
+      return !isRegistered;
+    }, {
+      message: 'This Email is Already in Use'
+    })
+    .trim(),
   password: z
     .string()
     .min(8, { error: 'Be at least 8 characters long' })
@@ -29,12 +29,13 @@ export const SignupFormSchema = z.object({
 
 export const LoginFormSchema = z.object({
   email: z
-      .email({ error: 'Please enter a valid email.' })
-      .trim(),
+    .email({ error: 'Please enter a valid email.' })
+    .trim(),
   password: z
     .string()
     .min(8, { error: 'Must be at least 8 characters long' })
     .trim(),
+  redirect: z.string().optional().default("/"),
 })
 
 export type FormState =
@@ -46,8 +47,8 @@ export type FormState =
     }
     message?: string;
     fields?: {
-        email?: string;
-      };
+      email?: string;
+    };
   }
   | undefined
 

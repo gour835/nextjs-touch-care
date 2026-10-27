@@ -5,6 +5,7 @@ import PurchaseButton from "./buyButton";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { ServiceModel } from "./service-model";
 interface CheckoutProps {
   title: string;
   sub: Array<string>;
@@ -54,7 +55,8 @@ function Checkout({ title, sub, price }: CheckoutProps) {
             Because feeling beautiful shouldn&apos;t come with unnecessary compromise.
           </Typography>
 
-          <PurchaseButton price={price}/>
+          {/* <PurchaseButton price={price}/> */}
+          <ServiceModel/>
 
         </div>
       </div>
