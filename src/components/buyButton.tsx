@@ -60,7 +60,7 @@ export default function PurchaseButton({ price }: { price: number }) {
 
             toast.success("Payment Successful!");
             console.log(paymentResponse.data);
-            router.push('/')
+            
 
 
           } catch (error) {
