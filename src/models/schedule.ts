@@ -18,6 +18,10 @@ const scheduleSchema = new mongoose.Schema({
     time: {
         type: String,
         required: true
+    },
+    paymentDone:{
+        type: Boolean,
+        default: false
     }
 }, {timestamps: true});
 

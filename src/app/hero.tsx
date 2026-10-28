@@ -10,7 +10,7 @@ import Link from "next/link";
 function Hero() {
   return (
     // <div className="relative min-h-screen w-full bg-[url('/image/bg_1.jpg')] bg-cover bg-no-repeat bg-po">
-    <div className="relative min-h-screen w-full bg-[url('/image/bg_1.jpg')] bg-cover bg-no-repeat">
+    <div className="relative min-h-screen w-full bg-[url('/image/bg_1.jpg')] bg-cover bg-no-repeat ">
       <div className="absolute inset-0 h-full w-full" />
       <div className="grid place-items-center place-content-center min-h-screen px-8">
         <div className="container relative z-10 mt-20 lg:m-auto grid place-items-start lg:place-items-center ">

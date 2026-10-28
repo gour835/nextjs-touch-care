@@ -39,6 +39,7 @@ export default function PurchaseButton({ price }: { price: number }) {
         return 
       }
       const orderId: string = await createOrderId(price, "INR");
+      // in this code here i have to create an entry for orderId in the database without paymentId, signature, and method
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: price * 100,
@@ -53,6 +54,9 @@ export default function PurchaseButton({ price }: { price: number }) {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
             });
+
+            // then after the payment is success here i have to update the existing fields of the database which were not set
+            
 
             toast.success("Payment Successful!");
             console.log(paymentResponse.data);

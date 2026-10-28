@@ -6,7 +6,7 @@ import { PlayIcon } from "@heroicons/react/24/solid";
 function Benifits() {
   return (
     // <div className="relative min-h-screen w-full bg-[url('/image/bg_1.jpg')] bg-cover bg-no-repeat bg-po">
-    <div className="relative min-h-screen w-full bg-[url('/image/bg_3.jpg')] bg-cover bg-no-repeat">
+    <div className="relative min-h-screen w-full bg-[url('/image/bg_3.jpg')] bg-cover bg-no-repeat bg-bottom lg:bg-center">
       <div className="absolute inset-0 h-full w-full" />
       <div className="grid min-h-screen px-8">
         <div className="container relative z-10 my-10 mx-auto grid place-items-end text-right">

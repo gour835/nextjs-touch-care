@@ -28,7 +28,7 @@ export default async function page(props: { params: Promise<{ title: string }> }
         <>
             <Navbar />
             <Checkout title={service?.title} sub={service?.sub} price={service?.price}>
-                <ServiceModel titles={serviceTitles} titleValue={updatedTitle}/>
+                <ServiceModel titles={serviceTitles} titleValue={service?._id} price={service?.price}/>
             </Checkout>
         </>
     )

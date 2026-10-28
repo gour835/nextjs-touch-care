@@ -1,33 +1,57 @@
 'use client';
-import React, { useActionState } from "react";
+import React, { useActionState, useState } from "react";
 import {
     Input,
     Option,
     Select,
     Button,
     Dialog,
-    Textarea,
     IconButton,
     Typography,
     DialogBody,
     DialogHeader,
-    DialogFooter,
+    Switch,
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { saveSchedule } from "@/app/actions/action";
+import PurchaseButton from "./buyButton";
 
 interface TitleProps {
     title: string;
     _id: string;
 }
 
-export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], titleValue: string }) {
-    const [open, setOpen] = React.useState(false);
-    const [titleState, setTitleState] = React.useState<string>(titleValue ?? '');
-
+export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps[], titleValue: string, price: number }) {
+    const [open, setOpen] = useState(false);
+    const [titleState, setTitleState] = useState<string>(titleValue ?? '');
+    const [showPayment, setShowPayment] = useState<boolean>(false);
+    const [selectedDate, setSelectedDate] = useState("");
+    const [selectedTime, setSelectedTime] = useState("");
+    
+    const now = new Date();
+    const todayStr = now.toISOString().split("T")[0];
+    
+    // Format current time as HH:MM for the 'min' attribute
+    const currentTimeStr = `${String(now.getHours()).padStart(2, "0")}:${String(
+        now.getMinutes()
+    ).padStart(2, "0")}`;
+    
+    // If selected date is today, disable past times. Otherwise, allow all times.
+    const minTime = selectedDate === todayStr ? currentTimeStr : undefined;
+    
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newDate = e.target.value;
+        setSelectedDate(newDate);
+    
+        // If user changes date back to today and their already-selected time is now in the past, reset it
+        if (newDate === todayStr && selectedTime && selectedTime < currentTimeStr) {
+            setSelectedTime("");
+        }
+    };
+    
     const session = useSession();
     const router = useRouter();
     const path = usePathname()
@@ -40,7 +64,8 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
             setOpen(!open);
         }
     }
-    console.log('title state',titleState);
+    console.log('title state', titleState);
+
 
     const [state, action, isPending] = useActionState(saveSchedule, undefined);
 
@@ -92,7 +117,7 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                 }}
                                 labelProps={{
                                     className: "hidden",
-                                }}  />
+                                }} />
                         </div>
                         <div>
                             <Typography
@@ -101,14 +126,14 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                 className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}            >
                                 Category
                             </Typography>
-                            <input type="hidden" name="title" value={titleState} />
+                            <input type="hidden" name="serviceId" value={titleState} />
                             {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                             <Select
                                 className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-800 ring-4 ring-transparent placeholder:text-gray-600 focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
                                 placeholder="1"
                                 labelProps={{
                                     className: "hidden",
-                                }} 
+                                }}
                                 value={titleState}
                                 onChange={(val) => {
                                     setTitleState(val || '');
@@ -116,7 +141,7 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                             >
                                 {titles.map((obj, idx) => {
                                     return (
-                                        <Option value={obj.title} key={idx}>
+                                        <Option value={obj._id} key={idx}>
                                             {obj.title}
                                         </Option>
                                     )
@@ -133,18 +158,21 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                 </Typography>
                                 {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                                 <Input
-                                type="date"
+                                    type="date"
                                     color="gray"
                                     size="lg"
                                     placeholder="eg. <8.8oz | 250g"
-                                    name="weight"
+                                    name="date"
+                                    min={todayStr}
+                                    value={selectedDate}
+                                    onChange={handleDateChange}
                                     className="placeholder:opacity-100 focus:!border-t-gray-900"
                                     containerProps={{
                                         className: "!min-w-full",
                                     }}
                                     labelProps={{
                                         className: "hidden",
-                                    }}  />
+                                    }} />
                             </div>
                             <div className="w-full">
                                 <Typography
@@ -155,24 +183,50 @@ export function ServiceModel({ titles, titleValue }: { titles: TitleProps[], tit
                                 </Typography>
                                 {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                                 <Input
-                                type="time"
+                                    type="time"
                                     color="gray"
                                     size="lg"
                                     placeholder="eg. US 8"
-                                    name="size"
+                                    name="time"
+                                    min={minTime}
+                                    value={selectedTime}
+                                    onChange={(e) => setSelectedTime(e.target.value)}
                                     className="placeholder:opacity-100 focus:!border-t-gray-900"
                                     containerProps={{
                                         className: "!min-w-full",
                                     }}
                                     labelProps={{
                                         className: "hidden",
-                                    }}  />
+                                    }} />
                             </div>
                         </div>
-                       
-                    <Button type="submit" className="ml-auto"  onResize={undefined} onResizeCapture={undefined}>
-                        Add Product
-                    </Button>
+
+                        <div>
+                            {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
+                            <Switch
+                                id="custom-switch-component"
+                                ripple={false}
+                                label='Pay Now'
+                                className="h-full w-full checked:bg-[#2ec946]"
+                                containerProps={{
+                                    className: "w-11 h-6",
+                                }}
+                                circleProps={{
+                                    className: "before:hidden left-0.5 border-none",
+                                }}
+                                onChange={(e)=>{
+                                    setShowPayment(e.target.checked)
+                                }}
+                            />
+
+                            <div className={`${showPayment? 'block': 'hidden'} transition-all duration-500 my-2`}>
+                                <PurchaseButton price={price}/>
+                            </div>
+                        </div>
+
+                        <Button type="submit" className="ml-auto" onResize={undefined} onResizeCapture={undefined}>
+                            Add Product
+                        </Button>
                     </form>
                 </DialogBody>
             </Dialog>
