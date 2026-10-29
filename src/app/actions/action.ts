@@ -42,13 +42,13 @@ export async function saveSchedule(state: FormState, formData: FormData) {
     try {
         const rawDate = formData.get('date');
         const rawTime = formData.get('time');
-        const rawUserId = formData.get('userId');
+        const rawUserEmail = formData.get('userEmail');
         const rawServiceId = formData.get('serviceId');
     
     
         const dateStr = typeof rawDate === 'string' ? rawDate : '';
         const timeStr = typeof rawTime === 'string' ? rawTime : '';
-        const userIdStr = typeof rawUserId === 'string' ? rawUserId : '';
+        const userEmailStr = typeof rawUserEmail === 'string' ? rawUserEmail : '';
         const serviceIdStr = typeof rawServiceId === 'string' ? rawServiceId : '';
     
     
@@ -56,7 +56,7 @@ export async function saveSchedule(state: FormState, formData: FormData) {
         const validatedFields = ScheduleFormSchema.safeParse({
             date: dateStr,
             time: timeStr,
-            userId: userIdStr,
+            userEmail: userEmailStr,
             serviceId: serviceIdStr
         });
     
@@ -66,7 +66,7 @@ export async function saveSchedule(state: FormState, formData: FormData) {
             };
         }
     
-        const { date, time, userId, serviceId } = validatedFields.data
+        const { date, time, userEmail, serviceId } = validatedFields.data
     
         const service = await ServicesModel.findById(serviceId);
         if (!service) {
@@ -74,8 +74,7 @@ export async function saveSchedule(state: FormState, formData: FormData) {
                 errors: { serviceId: ['Invalid Service'] }
             };
         }
-        
-        const user = await User.findById(userId);
+        const user = await User.findOne({email: userEmail});
         if (!user) {
             return {
                 errors: { userId: ['Invalid User'] }
@@ -83,10 +82,19 @@ export async function saveSchedule(state: FormState, formData: FormData) {
         }
     
         await ScheduleModel.create({
-            date, time, userId, serviceId
+            date, time, userId: user._id, serviceId
         })
+
+        return {
+            success: true,
+            message: 'Schedule created successfully!'
+        };
     } catch (error) {
         console.log('something went wrong', error);
+        return {
+            success: false,
+            errors: { _form: ['An unexpected error occurred. Please try again.'] }
+        };
     }
     
 }

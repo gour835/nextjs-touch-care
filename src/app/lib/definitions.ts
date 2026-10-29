@@ -39,8 +39,8 @@ export const LoginFormSchema = z.object({
 })
 
 export const ScheduleFormSchema = z.object({
-  userId: z
-    .string()
+  userEmail: z
+    .email()
     .trim(),
   serviceId: z
     .string()
@@ -63,6 +63,9 @@ export type FormState =
       password?: string[]
       date?: string[]
       time?: string[]
+      userEmail?: string[]
+      serviceId?: string[]
+      _form?: string[]
     }
     message?: string;
     fields?: {

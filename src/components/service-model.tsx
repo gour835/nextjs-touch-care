@@ -11,6 +11,7 @@ import {
     DialogBody,
     DialogHeader,
     Switch,
+    Progress,
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
@@ -30,28 +31,28 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
     const [showPayment, setShowPayment] = useState<boolean>(false);
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
-    
+
     const now = new Date();
     const todayStr = now.toISOString().split("T")[0];
-    
+
     // Format current time as HH:MM for the 'min' attribute
     const currentTimeStr = `${String(now.getHours()).padStart(2, "0")}:${String(
         now.getMinutes()
     ).padStart(2, "0")}`;
-    
+
     // If selected date is today, disable past times. Otherwise, allow all times.
     const minTime = selectedDate === todayStr ? currentTimeStr : undefined;
-    
+
     const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newDate = e.target.value;
         setSelectedDate(newDate);
-    
+
         // If user changes date back to today and their already-selected time is now in the past, reset it
         if (newDate === todayStr && selectedTime && selectedTime < currentTimeStr) {
             setSelectedTime("");
         }
     };
-    
+
     const session = useSession();
     const router = useRouter();
     const path = usePathname()
@@ -65,6 +66,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
         }
     }
     console.log('title state', titleState);
+    console.log('client: ', session.data?.user);
 
 
     const [state, action, isPending] = useActionState(saveSchedule, undefined);
@@ -92,33 +94,38 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                         onClick={handleOpen} onResize={undefined} onResizeCapture={undefined}          >
                         <XMarkIcon className="h-4 w-4 stroke-2" />
                     </IconButton>
+                    <div className="w-full">
+                        <div className="mb-2 flex items-center justify-between gap-4">
+                            {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                            <Typography color="blue-gray" variant="h6">
+                                Completed
+                            </Typography>
+                            {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                            <Typography color="blue-gray" variant="h6">
+                                {state?.success? 50: 0}
+                            </Typography>
+                        </div>
+                        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                        <Progress value={state?.success? 50: 0} />
+                    </div>
                 </DialogHeader>
                 {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                 <DialogBody className="space-y-4 pb-6" >
-                    <form action={action}>
+                    <form action={action} >
+                        {/* userID hidden */}
+                        <input type="hidden" name="userEmail" value={session.data?.user?.email} />
+                        {state?.errors?.userEmail && <p className="text-red-400 mt-1 text-sm">{state.errors.userEmail}</p>}
+                        {/* Show general or server errors */}
+                        {state?.errors?._form && (
+                            <p className="text-red-500">{state.errors._form}</p>
+                        )}
 
+                        {state?.success && (
+                            <div className="bg-green-300 rounded-lg p-2">
 
-                        <div>
-                            <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}            >
-                                Name
-                            </Typography>
-                            {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
-                            <Input
-                                color="gray"
-                                size="lg"
-                                placeholder="eg. White Shoes"
-                                name="name"
-                                className="placeholder:opacity-100 focus:!border-t-gray-900"
-                                containerProps={{
-                                    className: "!min-w-full",
-                                }}
-                                labelProps={{
-                                    className: "hidden",
-                                }} />
-                        </div>
+                            <p className="text-black">{state.message}</p>
+                            </div>
+                        )}
                         <div>
                             <Typography
                                 variant="small"
@@ -131,6 +138,8 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                             <Select
                                 className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-800 ring-4 ring-transparent placeholder:text-gray-600 focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
                                 placeholder="1"
+                                disabled={state?.success && true}
+                                    aria-disabled={state?.success && true}
                                 labelProps={{
                                     className: "hidden",
                                 }}
@@ -147,6 +156,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                                     )
                                 })}
                             </Select>
+                            {state?.errors?.serviceId && <p className="text-red-400 mt-1 text-sm">{state.errors.serviceId}</p>}
                         </div>
                         <div className="flex gap-4 my-2">
                             <div className="w-full">
@@ -167,12 +177,16 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                                     value={selectedDate}
                                     onChange={handleDateChange}
                                     className="placeholder:opacity-100 focus:!border-t-gray-900"
+                                    required
+                                    disabled={state?.success && true}
+                                    aria-disabled={state?.success && true}
                                     containerProps={{
                                         className: "!min-w-full",
                                     }}
                                     labelProps={{
                                         className: "hidden",
                                     }} />
+                                {state?.errors?.date && <p className="text-red-400 mt-1 text-sm">{state.errors.date}</p>}
                             </div>
                             <div className="w-full">
                                 <Typography
@@ -192,16 +206,23 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                                     value={selectedTime}
                                     onChange={(e) => setSelectedTime(e.target.value)}
                                     className="placeholder:opacity-100 focus:!border-t-gray-900"
+                                    required
+                                    disabled={state?.success && true}
+                                    aria-disabled={state?.success && true}
                                     containerProps={{
                                         className: "!min-w-full",
                                     }}
                                     labelProps={{
                                         className: "hidden",
                                     }} />
+                                {state?.errors?.time && <p className="text-red-400 mt-1 text-sm">{state.errors.time}</p>}
                             </div>
                         </div>
 
-                        <div>
+                        <Button type="submit" disabled={isPending || state?.success} className={`"ml-auto" ${state?.success && 'hidden'}`} onResize={undefined} onResizeCapture={undefined}>
+                            Add Schedule
+                        </Button>
+                        <div className={` ${!state?.success && 'hidden'}`}>
                             {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                             <Switch
                                 id="custom-switch-component"
@@ -214,19 +235,16 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                                 circleProps={{
                                     className: "before:hidden left-0.5 border-none",
                                 }}
-                                onChange={(e)=>{
+                                onChange={(e) => {
                                     setShowPayment(e.target.checked)
                                 }}
                             />
 
-                            <div className={`${showPayment? 'block': 'hidden'} transition-all duration-500 my-2`}>
-                                <PurchaseButton price={price}/>
+                            <div className={`${showPayment ? 'block' : 'hidden'} transition-all duration-500 my-2`}>
+                                <PurchaseButton price={price} />
                             </div>
                         </div>
 
-                        <Button type="submit" className="ml-auto" onResize={undefined} onResizeCapture={undefined}>
-                            Add Product
-                        </Button>
                     </form>
                 </DialogBody>
             </Dialog>
