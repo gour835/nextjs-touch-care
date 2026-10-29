@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 
 
-export default function PurchaseButton({ price }: { price: number }) {
+export default function PurchaseButton({ price, scheduleId }: { price: number, scheduleId: string }) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const router = useRouter();
@@ -38,7 +38,7 @@ export default function PurchaseButton({ price }: { price: number }) {
         }, 1500);
         return 
       }
-      const orderId: string = await createOrderId(price, "INR");
+      const orderId: string = await createOrderId(price, "INR", scheduleId);
       // in this code here i have to create an entry for orderId in the database without paymentId, signature, and method
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -95,7 +95,7 @@ export default function PurchaseButton({ price }: { price: number }) {
     <>
 
       <button
-        className="bg-green-400 font-semibold px-4 py-2 rounded-lg hover:bg-green-300 transition-all duration-300 hover:shadow-lg hover:scale-105"
+        className="bg-green-400 text-white font-semibold px-4 py-2 rounded-lg hover:bg-green-300 transition-all duration-300 hover:shadow-lg hover:scale-105"
         onClick={handlePayment}
         disabled={isLoading}
       >

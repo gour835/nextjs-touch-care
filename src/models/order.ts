@@ -6,6 +6,11 @@ const orderSchema = new mongoose.Schema({
         ref: 'users',
         required: true
     },
+    scheduleId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'schedule',
+        required: true
+    },
     amount: {
         type: Number,
         required: true

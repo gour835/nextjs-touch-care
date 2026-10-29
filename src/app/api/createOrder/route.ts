@@ -16,9 +16,10 @@ export async function POST(request: NextRequest) {
         if(!session || !session.user){
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
-        const { amount, currency } = (await request.json()) as {
+        const { amount, currency, scheduleId } = (await request.json()) as {
             amount: number,
-            currency: string
+            currency: string,
+            scheduleId: string
         }
         if (!amount) {
             return NextResponse.json({ message: 'Amount is Required' }, { status: 400 });
@@ -39,6 +40,7 @@ export async function POST(request: NextRequest) {
             razorpay: { orderId: order.id },
             userId: user._id,
             status: 'created',
+            scheduleId,
             amount,
             currency
         });

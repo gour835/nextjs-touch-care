@@ -1,10 +1,11 @@
 import axios from "axios";
 
-export async function createOrderId(amount: number, currency: string){
+export async function createOrderId(amount: number, currency: string, scheduleId: string){
     try {
         const response = await axios.post('/api/createOrder',{
             amount: Math.round(amount * 100),
-            currency: 'INR'
+            currency: 'INR',
+            scheduleId
         });
         console.log('Order Response', response.data);
         return response.data.orderId

@@ -68,6 +68,7 @@ export type FormState =
       _form?: string[]
     }
     message?: string;
+    scheduleId?: string;
     fields?: {
       email?: string;
     };

@@ -241,7 +241,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                             />
 
                             <div className={`${showPayment ? 'block' : 'hidden'} transition-all duration-500 my-2`}>
-                                <PurchaseButton price={price} />
+                                <PurchaseButton price={price} scheduleId={state?.success && state?.scheduleId}/>
                             </div>
                         </div>
 

@@ -81,12 +81,13 @@ export async function saveSchedule(state: FormState, formData: FormData) {
             };
         }
     
-        await ScheduleModel.create({
+        const schedule = await ScheduleModel.create({
             date, time, userId: user._id, serviceId
         })
 
         return {
             success: true,
+            scheduleId: schedule._id.toString(),
             message: 'Schedule created successfully!'
         };
     } catch (error) {
