@@ -54,6 +54,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
     };
 
     const session = useSession();
+    const user_email = session.data?.user?.email;
     const router = useRouter();
     const path = usePathname()
 
@@ -65,10 +66,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
             setOpen(!open);
         }
     }
-    console.log('title state', titleState);
-    console.log('client: ', session.data?.user);
-
-
+    
     const [state, action, isPending] = useActionState(saveSchedule, undefined);
 
     return (
@@ -113,7 +111,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                 <DialogBody className="space-y-4 pb-6" >
                     <form action={action} >
                         {/* userID hidden */}
-                        <input type="hidden" name="userEmail" value={session.data?.user?.email} />
+                        <input type="hidden" name="userEmail" value={user_email} />
                         {state?.errors?.userEmail && <p className="text-red-400 mt-1 text-sm">{state.errors.userEmail}</p>}
                         {/* Show general or server errors */}
                         {state?.errors?._form && (

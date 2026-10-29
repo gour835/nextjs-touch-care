@@ -3,6 +3,7 @@ import { ServicesModel } from "@/models/services";
 import { FormState, ScheduleFormSchema } from "../lib/definitions";
 import User from "@/models/users";
 import { ScheduleModel } from "@/models/schedule";
+import { OrderModel } from "@/models/order";
 
 export async function getAllServices() {
     try {
@@ -77,7 +78,7 @@ export async function saveSchedule(state: FormState, formData: FormData) {
         const user = await User.findOne({email: userEmail});
         if (!user) {
             return {
-                errors: { userId: ['Invalid User'] }
+                errors: { userEmail: ['Invalid User'] }
             };
         }
     
@@ -98,4 +99,17 @@ export async function saveSchedule(state: FormState, formData: FormData) {
         };
     }
     
+}
+
+export async function getOrders(email: string){
+    try {
+        const user = await User.findOne({email});
+        const orders = await OrderModel.find({userId: user._id}).populate('scheduleId');
+        console.log('server',orders);
+        return {success: true, orders};
+        
+    } catch (error) {
+        console.log('some error Occured:', error);
+        return{success: false, error: error};
+    }
 }

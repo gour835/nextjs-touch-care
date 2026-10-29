@@ -40,7 +40,7 @@ export const LoginFormSchema = z.object({
 
 export const ScheduleFormSchema = z.object({
   userEmail: z
-    .email()
+    .email({error: 'Please enter a valid email.'})
     .trim(),
   serviceId: z
     .string()
@@ -48,8 +48,6 @@ export const ScheduleFormSchema = z.object({
   date: z.coerce.date({
     error: "Please select a valid date",
   }),
-
-  // Validates time strings like "14:30" or "09:00:00"
   time: z.string().time({
     message: "Invalid time format (expected HH:MM)",
   }),

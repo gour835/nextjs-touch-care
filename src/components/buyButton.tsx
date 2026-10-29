@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import Script from "next/script";
 import { createOrderId } from "@/app/actions/razorpay";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
@@ -38,6 +38,7 @@ export default function PurchaseButton({ price, scheduleId }: { price: number, s
         }, 1500);
         return 
       }
+
       const orderId: string = await createOrderId(price, "INR", scheduleId);
       // in this code here i have to create an entry for orderId in the database without paymentId, signature, and method
       const options = {
@@ -60,6 +61,7 @@ export default function PurchaseButton({ price, scheduleId }: { price: number, s
 
             toast.success("Payment Successful!");
             console.log(paymentResponse.data);
+            router.push('/dashboard');
             
 
 
