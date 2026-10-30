@@ -8,11 +8,12 @@ export default async function Page() {
     const session = await auth();
     const email = session?.user?.email || '';
     const orderResponce = await getOrders(email);
-    console.log('client', orderResponce.orders?.slice(0, 1));
+    const orderData = orderResponce.orders? JSON.parse(JSON.stringify(orderResponce.orders)): [];
+    console.log('client', JSON.parse(JSON.stringify(orderResponce.orders)));
   return (
     <>
     <Navbar/>
-    <Billing/>
+    <Billing orders={orderData} />
     </>
   )
 }

@@ -45,14 +45,14 @@ export async function saveSchedule(state: FormState, formData: FormData) {
         const rawTime = formData.get('time');
         const rawUserEmail = formData.get('userEmail');
         const rawServiceId = formData.get('serviceId');
-    
-    
+
+
         const dateStr = typeof rawDate === 'string' ? rawDate : '';
         const timeStr = typeof rawTime === 'string' ? rawTime : '';
         const userEmailStr = typeof rawUserEmail === 'string' ? rawUserEmail : '';
         const serviceIdStr = typeof rawServiceId === 'string' ? rawServiceId : '';
-    
-    
+
+
         // 1. Validate form fields
         const validatedFields = ScheduleFormSchema.safeParse({
             date: dateStr,
@@ -60,28 +60,28 @@ export async function saveSchedule(state: FormState, formData: FormData) {
             userEmail: userEmailStr,
             serviceId: serviceIdStr
         });
-    
+
         if (!validatedFields.success) {
             return {
                 errors: validatedFields.error.flatten().fieldErrors
             };
         }
-    
+
         const { date, time, userEmail, serviceId } = validatedFields.data
-    
+
         const service = await ServicesModel.findById(serviceId);
         if (!service) {
             return {
                 errors: { serviceId: ['Invalid Service'] }
             };
         }
-        const user = await User.findOne({email: userEmail});
+        const user = await User.findOne({ email: userEmail });
         if (!user) {
             return {
                 errors: { userEmail: ['Invalid User'] }
             };
         }
-    
+
         const schedule = await ScheduleModel.create({
             date, time, userId: user._id, serviceId
         })
@@ -98,18 +98,24 @@ export async function saveSchedule(state: FormState, formData: FormData) {
             errors: { _form: ['An unexpected error occurred. Please try again.'] }
         };
     }
-    
+
 }
 
-export async function getOrders(email: string){
+export async function getOrders(email: string) {
     try {
-        const user = await User.findOne({email});
-        const orders = await OrderModel.find({userId: user._id}).populate('scheduleId');
-        console.log('server',orders);
-        return {success: true, orders};
-        
+        const user = await User.findOne({ email });
+        const orders = await OrderModel.find({ userId: user._id }).populate({
+            path: 'scheduleId',
+            populate: {
+                path: 'serviceId',
+                select: 'title' // Optional: pulls only the title field to keep data light
+            }
+        });;
+        console.log('server', orders);
+        return { success: true, orders };
+
     } catch (error) {
         console.log('some error Occured:', error);
-        return{success: false, error: error};
+        return { success: false, error: error };
     }
 }

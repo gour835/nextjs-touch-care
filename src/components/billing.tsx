@@ -9,13 +9,68 @@ import {
 import { BriefcaseIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 
-
-interface BillingCardPropsType {
-    title: string;
-    detail: boolean;
+export interface RazorpayDetails {
+  orderId: string;
+  paymentId: string;
+  signature?: string;
 }
 
-function BillingCard({ title, detail }: BillingCardPropsType) {
+export interface Service {
+  _id: string;
+  title: string;
+  [key: string]: any; 
+}
+
+export interface Schedule {
+  _id: string;
+  userId: string;
+  serviceId: Service | string;
+  date: string;
+  time: string;
+  paymentDone: boolean;
+  [key: string]: any; 
+}
+
+export interface OrderProps {
+  _id: string;
+  userId: string;
+  amount: number;
+  currency: string;
+  status: 'paid' | 'pending' | 'failed'; 
+  razorpay?: RazorpayDetails;
+  scheduleId?: Schedule | string; 
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
+
+interface BillingCardProps {
+    order: OrderProps;
+}
+
+function BillingCard({order} : BillingCardProps) {
+    const schedule = typeof order.scheduleId === 'object' ? order.scheduleId : null;
+    const service = schedule && typeof schedule.serviceId === 'object' ? schedule.serviceId : null;
+    const scheduleDate =schedule?.date ? new Date(schedule?.date).toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+}): 'N/A';
+    
+    const serviceTitle = service?.title || "General Service";
+    const isPaid = order.status === 'paid';
+    const PaymentDate = schedule?.date ? new Date(order.updatedAt).toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+    }) : 'N/A';
+    const PaymentAmount = (order.amount / 100).toLocaleString('en-IN', { style: 'currency', currency: order.currency || 'INR' });
+
+    const subs = {
+    'Amount': PaymentAmount,
+    'Payment Date': PaymentDate,
+    'Payment ID': order.razorpay?.paymentId || 'N/A',
+};
     return (
 
         <Card
@@ -29,17 +84,23 @@ function BillingCard({ title, detail }: BillingCardPropsType) {
                     <div>
                         {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                         <Typography variant="small" color="blue-gray" className="mb-1 font-bold">
-                            {title}
+                           {serviceTitle}
                         </Typography>
                         {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                         <Typography
                             className="!text-gray-600 text-xs font-normal"
                             >
-                            Payment: {detail ? '✅': '❌'}
+                            Payment: {isPaid ? '✅': '❌'}
+                        </Typography>
+                        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                        <Typography
+                            className="!text-gray-600 text-xs font-normal"
+                            >
+                            Scheduled On: {scheduleDate}
                         </Typography>
                     </div>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between hidden">
                     {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                     <Button
                         size="sm"
@@ -68,58 +129,23 @@ function BillingCard({ title, detail }: BillingCardPropsType) {
                 </div>
             </div>
             <div>
-                <div className="flex gap-1">
-                    {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                    <Typography className="mb-1 text-xs !font-medium !text-gray-600">
-                        Payment Done On:
-                    </Typography>
-                    {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                    <Typography
-                        className="text-xs !font-bold"
-                        color="blue-gray"
-                    >
-                        22/33/1212
-                    </Typography>
-                </div>
-                <div className="flex gap-1">
-                    {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                    <Typography className="mb-1 text-xs !font-medium !text-gray-600">
-                        Payment Done On:
-                    </Typography>
-                    {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                    <Typography
-                        className="text-xs !font-bold"
-                        color="blue-gray"
-                    >
-                        22/33/1212
-                    </Typography>
-                </div>
-                <div className="flex gap-1">
-                    {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                    <Typography className="mb-1 text-xs !font-medium !text-gray-600">
-                        Payment Done On:
-                    </Typography>
-                    {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                    <Typography
-                        className="text-xs !font-bold"
-                        color="blue-gray"
-                    >
-                        22/33/1212
-                    </Typography>
-                </div>
-                <div className="flex gap-1">
-                    {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                    <Typography className="mb-1 text-xs !font-medium !text-gray-600">
-                        Payment Done On:
-                    </Typography>
-                    {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                    <Typography
-                        className="text-xs !font-bold"
-                        color="blue-gray"
-                    >
-                        22/33/1212
-                    </Typography>
-                </div>
+                {Object.entries(subs).map(([key, value]) => (
+    <div className="flex gap-1" key={key}>
+        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+        <Typography className="mb-1 text-xs !font-medium !text-gray-600">
+            {key}:
+        </Typography>
+        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+        <Typography
+            className="text-xs !font-bold"
+            color="blue-gray"
+        >
+            {value}
+        </Typography>
+    </div>
+))}
+                
+                
             </div>
         </Card>
     );
@@ -134,7 +160,7 @@ const billingCardData = [
 
 ];
 
-function Billing() {
+function Billing({orders}: {orders: OrderProps[]}) {
     return (
         <section className="max-w-5xl !mx-auto px-8 py-20 w-full">
             <Card shadow={false} onResize={undefined} onResizeCapture={undefined}>
@@ -161,8 +187,8 @@ function Billing() {
                 </CardHeader>
                 {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                 <CardBody className="flex flex-col gap-4 !p-4">
-                    {billingCardData.map((props, key) => (
-                        <BillingCard  key={key} {...props} />
+                    {orders.map((order, key) => (
+                        <BillingCard order={order} key={key}  />
                     ))}
                 </CardBody>
             </Card>
