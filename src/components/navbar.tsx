@@ -89,8 +89,8 @@ export function Navbar() {
         >
           <Link href={'/'} className="flex flex-row gap-2">
             <Image
-              width={ 10}
-              height={ 10}
+              width={10}
+              height={10}
               src={'/image/logo.png'}
               alt="logo"
               className="w-10 h-10 object-fit "
@@ -112,6 +112,11 @@ export function Navbar() {
           <NavButtonLG onClick={() => router.push('/services')} active={pathname.includes('/services') ? true : false} border="black" >
             Services
           </NavButtonLG>
+          {IsUserLoggedIn && 
+          <NavButtonLG onClick={() => router.push('/dashboard')} active={pathname.includes('/dashboard') ? true : false} border="black" >
+            Dashboard
+          </NavButtonLG>
+          }
 
           <NavButtonLG onClick={() => router.push('/testimony')} active={pathname == '/testimony' ? true : false} border="black" >
             Testimony
@@ -128,7 +133,9 @@ export function Navbar() {
           {IsUserLoggedIn && (
             <div className={`flex items-center gap-1 p-1 rounded-lg bg-white/40 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] `}>
               {session?.user?.image && !imgError ? (
-                <img
+                <Image
+                  width={10}
+                  height={10}
                   src={session.user.image}
                   alt="" // Keep alt empty so broken alt text won't render inside the circle
                   referrerPolicy="no-referrer" // Allows loading Google avatar images without 403 errors
@@ -173,7 +180,9 @@ export function Navbar() {
           {IsUserLoggedIn && (
             <div className={`flex items-center gap-1 p-1 rounded-lg bg-black `}>
               {session?.user?.image && !imgError ? (
-                <img
+                <Image
+                  width={10}
+                  height={10}
                   src={session.user.image}
                   alt="" // Keep alt empty so broken alt text won't render inside the circle
                   referrerPolicy="no-referrer" // Allows loading Google avatar images without 403 errors
@@ -197,6 +206,13 @@ export function Navbar() {
           )}
 
           <div className="mt-6 flex flex-col items-center gap-4">
+            <Link href={'/dashboard'} className={`!w-full ${IsUserLoggedIn ? 'inline' : 'hidden'}`}>
+              <Button variant="text" className={`!w-full ${pathname == '/dashboard' && 'bg-gray-900/15 border-b-2 border-black'}`} onResize={undefined} onResizeCapture={undefined}
+              >
+                Dashboard
+
+              </Button>
+            </Link>
             <Link href={'/services'} className="!w-full">
               <Button variant="text" className={`!w-full ${pathname == '/services' && 'bg-gray-900/15 border-b-2 border-black'}`} onResize={undefined} onResizeCapture={undefined}
               >

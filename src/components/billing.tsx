@@ -8,7 +8,6 @@ import {
 } from "@material-tailwind/react";
 import { BriefcaseIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 
-
 export interface RazorpayDetails {
   orderId: string;
   paymentId: string;
@@ -21,61 +20,76 @@ export interface Service {
   [key: string]: any; 
 }
 
+export interface OrderProps {
+  _id: string;
+  userId: string;
+  scheduleId: string | Schedule;
+  amount: number;
+  currency: string;
+  status: 'created' | 'paid' | 'failed';
+  razorpay?: RazorpayDetails;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
+
 export interface Schedule {
   _id: string;
   userId: string;
   serviceId: Service | string;
   date: string;
   time: string;
+  approved: boolean;
   paymentDone: boolean;
-  [key: string]: any; 
-}
-
-export interface OrderProps {
-  _id: string;
-  userId: string;
-  amount: number;
-  currency: string;
-  status: 'paid' | 'pending' | 'failed'; 
-  razorpay?: RazorpayDetails;
-  scheduleId?: Schedule | string; 
   createdAt: string;
   updatedAt: string;
   __v?: number;
+  orderDetails?: OrderProps;
 }
 
 interface BillingCardProps {
-    order: OrderProps;
+    schedule: Schedule; 
 }
 
-function BillingCard({order} : BillingCardProps) {
-    const schedule = typeof order.scheduleId === 'object' ? order.scheduleId : null;
+function BillingCard({ schedule }: BillingCardProps) {
+    // 1. Extract populated service object safely
     const service = schedule && typeof schedule.serviceId === 'object' ? schedule.serviceId : null;
-    const scheduleDate =schedule?.date ? new Date(schedule?.date).toLocaleDateString('en-IN', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric'
-}): 'N/A';
-    
     const serviceTitle = service?.title || "General Service";
-    const isPaid = order.status === 'paid';
-    const PaymentDate = schedule?.date ? new Date(order.updatedAt).toLocaleDateString('en-IN', {
+
+    // 2. Extract populated order details
+    const order = schedule.orderDetails;
+
+    // 3. Format dates and values safely
+    const scheduleDate = schedule?.date ? new Date(schedule.date).toLocaleDateString('en-IN', {
         day: 'numeric',
         month: 'short',
         year: 'numeric'
     }) : 'N/A';
-    const PaymentAmount = (order.amount / 100).toLocaleString('en-IN', { style: 'currency', currency: order.currency || 'INR' });
-
+    
+    const isPaid = order?.status === 'paid' || schedule.paymentDone;
+    
+    const paymentDate = order?.updatedAt ? new Date(order.updatedAt).toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+    }) : 'N/A';
+    
+    const paymentAmount = order?.amount 
+    ? (order.amount / 100).toLocaleString('en-IN', { style: 'currency', currency: order.currency || 'INR' }) 
+    : '₹0.00';
+    
     const subs = {
-    'Amount': PaymentAmount,
-    'Payment Date': PaymentDate,
-    'Payment ID': order.razorpay?.paymentId || 'N/A',
-};
+        'Amount': paymentAmount,
+        'Payment Date': paymentDate,
+        'Payment ID': order?.razorpay?.paymentId || 'N/A',
+    };
+    
     return (
-
         <Card
-            shadow={false}
-            className="rounded-lg border border-gray-300 p-4" onResize={undefined} onResizeCapture={undefined}        >
+        shadow={false}
+        className="rounded-lg border border-gray-300 p-4"
+        >
+            {/* @ts-expect-error - Material Tailwind type mismatch fix */}
             <div className="mb-4 flex items-start justify-between">
                 <div className="flex items-center gap-3">
                     <div className="border border-gray-200 p-2.5 rounded-lg">
@@ -87,15 +101,11 @@ function BillingCard({order} : BillingCardProps) {
                            {serviceTitle}
                         </Typography>
                         {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                        <Typography
-                            className="!text-gray-600 text-xs font-normal"
-                            >
-                            Payment: {isPaid ? '✅': '❌'}
+                        <Typography className="!text-gray-600 text-xs font-normal">
+                            Payment: {isPaid ? '✅' : '❌'}
                         </Typography>
                         {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                        <Typography
-                            className="!text-gray-600 text-xs font-normal"
-                            >
+                        <Typography className="!text-gray-600 text-xs font-normal">
                             Scheduled On: {scheduleDate}
                         </Typography>
                     </div>
@@ -130,40 +140,34 @@ function BillingCard({order} : BillingCardProps) {
             </div>
             <div>
                 {Object.entries(subs).map(([key, value]) => (
-    <div className="flex gap-1" key={key}>
-        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-        <Typography className="mb-1 text-xs !font-medium !text-gray-600">
-            {key}:
-        </Typography>
-        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-        <Typography
-            className="text-xs !font-bold"
-            color="blue-gray"
-        >
-            {value}
-        </Typography>
-    </div>
-))}
-                
-                
+                    <div className="flex gap-1" key={key}>
+                        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                        <Typography className="mb-1 text-xs !font-medium !text-gray-600">
+                            {key}:
+                        </Typography>
+                        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                        <Typography
+                            className="text-xs !font-bold"
+                            color="blue-gray"
+                        >
+                            {value}
+                        </Typography>
+                    </div>
+                ))}
             </div>
         </Card>
     );
 }
 
-const billingCardData = [
-    {
-        title: "SERVICE TYPE: ex('Advanced Skin Treatment')",
-        detail: true,
-        
-    },
+interface BillingProps {
+    schedules: Schedule[]; // Expecting an array of Schedules since aggregation returns schedules with orderDetails
+}
 
-];
-
-function Billing({orders}: {orders: OrderProps[]}) {
+function Billing({ schedules }: BillingProps) {
     return (
         <section className="max-w-5xl !mx-auto px-8 py-20 w-full">
-            <Card shadow={false} onResize={undefined} onResizeCapture={undefined}>
+                {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+            <Card shadow={false}>
                 {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                 <CardHeader
                     floated={false}
@@ -183,12 +187,11 @@ function Billing({orders}: {orders: OrderProps[]}) {
                             View and update your Schedule and Service details.
                         </Typography>
                     </div>
-
                 </CardHeader>
                 {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                 <CardBody className="flex flex-col gap-4 !p-4">
-                    {orders.map((order, key) => (
-                        <BillingCard order={order} key={key}  />
+                    {schedules.map((schedule, key) => (
+                        <BillingCard schedule={schedule} key={schedule._id || key} />
                     ))}
                 </CardBody>
             </Card>

@@ -111,11 +111,52 @@ export async function getOrders(email: string) {
                 select: 'title' // Optional: pulls only the title field to keep data light
             }
         });;
-        console.log('server', orders);
+
         return { success: true, orders };
 
     } catch (error) {
         console.log('some error Occured:', error);
         return { success: false, error: error };
+    }
+}
+
+export async function getSchedulesWithOrderDetails(email: string) {
+    try {
+        const schedules = await ScheduleModel.aggregate([
+            // ❌ Removed the $match stage so it fetches everything
+            {
+                $lookup: {
+                    from: 'orders',           // Name of the orders collection in MongoDB
+                    localField: '_id',        // Schedule _id
+                    foreignField: 'scheduleId',// Order's scheduleId field
+                    as: 'orderDetails'        // Output array field name
+                }
+            },
+            {
+                $unwind: { 
+                    path: '$orderDetails', 
+                    preserveNullAndEmptyArrays: true // Keeps schedules even if an order hasn't been created yet
+                }
+            },
+            {
+                $lookup: {
+                    from: 'services',         // Name of services collection in MongoDB
+                    localField: 'serviceId',  // Schedule's serviceId field (ObjectId)
+                    foreignField: '_id',      // Service model's _id
+                    as: 'serviceId'           // Overwrites serviceId array with the populated service document
+                }
+            },
+            {
+                $unwind: { 
+                    path: '$serviceId',       // Converts serviceId from an array into a single object
+                    preserveNullAndEmptyArrays: true // Keeps schedule safe if service is missing
+                }
+            }
+        ]);
+
+        console.log('server', schedules); // This will now return an array of ALL schedules with their orders
+        return {success: true, schedules}
+    } catch (error) {
+
     }
 }

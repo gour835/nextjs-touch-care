@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from 'crypto';
 import { OrderModel } from "@/models/order";
+import { ScheduleModel } from "@/models/schedule";
 
 export interface VerifyBody {
     razorpay_order_id: string;
@@ -24,14 +25,22 @@ export async function POST(request: NextRequest) {
         HMAC.update(`${razorpay_order_id}|${razorpay_payment_id}`);
         const generatedSignature = HMAC.digest("hex");
         if (generatedSignature === razorpay_signature) {
-            await OrderModel.findOneAndUpdate(
+            const order = await OrderModel.findOneAndUpdate(
                 { "razorpay.orderId": razorpay_order_id },
                 {
                     status: "paid",
                     "razorpay.paymentId": razorpay_payment_id,
                     "razorpay.signature": razorpay_signature
-                }
+                },
+                {new: true}
             );
+            if(!order){
+                return NextResponse.json({ error: "Order Not Found", success: false }, { status: 404 })
+            }
+
+            await ScheduleModel.findByIdAndUpdate(order.scheduleId, {
+                paymentDone: true
+            });
             return NextResponse.json({ message: "Payment verified successfully", success: true, razorpay_payment_id, razorpay_order_id })
         } else {
             return NextResponse.json({ error: "Invalid signature", success: false }, { status: 400 })

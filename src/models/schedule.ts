@@ -19,6 +19,10 @@ const scheduleSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    approved:{
+        type: Boolean,
+        default: false
+    },
     paymentDone:{
         type: Boolean,
         default: false
