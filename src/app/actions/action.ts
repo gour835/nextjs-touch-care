@@ -4,6 +4,8 @@ import { FormState, ScheduleFormSchema } from "../lib/definitions";
 import User from "@/models/users";
 import { ScheduleModel } from "@/models/schedule";
 import { OrderModel } from "@/models/order";
+import { PipelineStage } from "mongoose";
+import { Schedule } from "@/components/billing";
 
 export async function getAllServices() {
     try {
@@ -101,43 +103,66 @@ export async function saveSchedule(state: FormState, formData: FormData) {
 
 }
 
+
 export async function getSchedulesWithOrderDetails(email: string) {
     try {
-        const schedules = await ScheduleModel.aggregate([
-            // ❌ Removed the $match stage so it fetches everything
+        const user = await User.findOne({ email });
+        if (!user) {
+            return {
+                errors: { userEmail: ['Invalid User'] }
+            };
+        }
+
+        // Use PipelineStage[] instead of any[] for type safety
+        const pipeline: PipelineStage[] = [];
+
+        // If the user is NOT an admin, restrict records to their own userId
+        if (user.type !== 'admin') {
+            pipeline.push({
+                $match: { userId: user._id }
+            });
+        }
+
+        // Push remaining aggregation stages safely
+        pipeline.push(
             {
                 $lookup: {
-                    from: 'orders',           // Name of the orders collection in MongoDB
-                    localField: '_id',        // Schedule _id
-                    foreignField: 'scheduleId',// Order's scheduleId field
-                    as: 'orderDetails'        // Output array field name
+                    from: 'orders',
+                    localField: '_id',
+                    foreignField: 'scheduleId',
+                    as: 'orderDetails'
                 }
             },
             {
-                $unwind: { 
-                    path: '$orderDetails', 
-                    preserveNullAndEmptyArrays: true // Keeps schedules even if an order hasn't been created yet
+                $unwind: {
+                    path: '$orderDetails',
+                    preserveNullAndEmptyArrays: true
                 }
             },
             {
                 $lookup: {
-                    from: 'services',         // Name of services collection in MongoDB
-                    localField: 'serviceId',  // Schedule's serviceId field (ObjectId)
-                    foreignField: '_id',      // Service model's _id
-                    as: 'serviceId'           // Overwrites serviceId array with the populated service document
+                    from: 'services',
+                    localField: 'serviceId',
+                    foreignField: '_id',
+                    as: 'serviceId'
                 }
             },
             {
-                $unwind: { 
-                    path: '$serviceId',       // Converts serviceId from an array into a single object
-                    preserveNullAndEmptyArrays: true // Keeps schedule safe if service is missing
+                $unwind: {
+                    path: '$serviceId',
+                    preserveNullAndEmptyArrays: true
                 }
             }
-        ]);
+        );
 
-        console.log('server', schedules); // This will now return an array of ALL schedules with their orders
-        return {success: true, schedules}
-    } catch (error) {
+        // You can also type the result array using your Schedule interface
+        const schedules = await ScheduleModel.aggregate<Schedule>(pipeline);
 
+        console.log('server', schedules);
+        return { success: true, schedules };
+    }
+    catch (error) {
+        console.error('Error fetching schedules:', error);
+        return { success: false, error: error };
     }
 }

@@ -94,7 +94,7 @@ function BillingCard({ schedule }: BillingCardProps) {
             >
                 <div className="mb-4 flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="border border-gray-200 p-2.5 rounded-lg">
+                        <div className="border border-gray-300 p-2.5 rounded-lg">
                             <BriefcaseIcon className="h-6 w-6 text-gray-900" />
                         </div>
                         <div>

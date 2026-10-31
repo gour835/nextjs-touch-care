@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
         
+    },
+    type:{
+        type: String,
+        enum: ['admin', 'client'],
+        default: 'client'
     }
 }, {timestamps: true});
 
