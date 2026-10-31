@@ -1,6 +1,6 @@
 import { Navbar } from "@/components";
 import Billing from "@/components/billing";
-import { getOrders, getSchedulesWithOrderDetails } from "../actions/action";
+import { getSchedulesWithOrderDetails } from "../actions/action";
 import { useSession } from "next-auth/react";
 import { auth } from "@/auth";
 

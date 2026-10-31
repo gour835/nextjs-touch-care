@@ -55,6 +55,7 @@ function BillingCard({ schedule }: BillingCardProps) {
     // 1. Extract populated service object safely
     const service = schedule && typeof schedule.serviceId === 'object' ? schedule.serviceId : null;
     const serviceTitle = service?.title || "General Service";
+    const approved = schedule && schedule.approved;
 
     // 2. Extract populated order details
     const order = schedule.orderDetails;
@@ -89,7 +90,7 @@ function BillingCard({ schedule }: BillingCardProps) {
             {/* @ts-expect-error - Material Tailwind type mismatch fix */}
             <Card
                 shadow={false}
-                className="rounded-lg border border-gray-300 p-4"
+                className={`rounded-lg border border-gray-300 p-4 ${approved? 'bg-green-100': 'bg-amber-100'}`}
             >
                 <div className="mb-4 flex items-start justify-between">
                     <div className="flex items-center gap-3">
@@ -111,7 +112,14 @@ function BillingCard({ schedule }: BillingCardProps) {
                             </Typography>
                         </div>
                     </div>
-                    <div className="flex items-center justify-between hidden">
+                    <div className="flex items-center justify-between">
+
+                        <div  className="flex items-center gap-2 uppercase">
+                            {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                            <Typography className={`!font-semibold text-xs text-gray-600 md:block hidden `}>
+                                {approved? 'Approved': 'Approval Pending'}
+                            </Typography>
+                        </div>
                         {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                         <Button
                             size="sm"
