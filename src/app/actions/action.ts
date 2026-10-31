@@ -101,25 +101,6 @@ export async function saveSchedule(state: FormState, formData: FormData) {
 
 }
 
-export async function getOrders(email: string) {
-    try {
-        const user = await User.findOne({ email });
-        const orders = await OrderModel.find({ userId: user._id }).populate({
-            path: 'scheduleId',
-            populate: {
-                path: 'serviceId',
-                select: 'title' // Optional: pulls only the title field to keep data light
-            }
-        });;
-
-        return { success: true, orders };
-
-    } catch (error) {
-        console.log('some error Occured:', error);
-        return { success: false, error: error };
-    }
-}
-
 export async function getSchedulesWithOrderDetails(email: string) {
     try {
         const schedules = await ScheduleModel.aggregate([
