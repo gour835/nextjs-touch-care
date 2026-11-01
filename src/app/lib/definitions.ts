@@ -53,25 +53,24 @@ export const ScheduleFormSchema = z.object({
   }),
 })
 
-export type FormState =
-  | {
-    errors?: {
-      name?: string[]
-      email?: string[]
-      password?: string[]
-      date?: string[]
-      time?: string[]
-      userEmail?: string[]
-      serviceId?: string[]
-      _form?: string[]
-    }
-    message?: string;
-    scheduleId?: string;
-    fields?: {
-      email?: string;
-    };
-  }
-  | undefined
+export type FormState = {
+  success?: boolean;
+  message?: string;
+  scheduleId?: string;
+  errors?: {
+    name?: string[];
+    email?: string[];
+    password?: string[];
+    date?: string[];
+    time?: string[];
+    userEmail?: string[];
+    serviceId?: string[];
+    _form?: string[];
+  };
+  fields?: {
+    email?: string;
+  };
+} | undefined;
 
 export interface SessionPayload extends JWTPayload {
   userId: string;

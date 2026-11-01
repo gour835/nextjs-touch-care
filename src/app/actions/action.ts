@@ -41,19 +41,17 @@ export async function getServiceTitles() {
     }
 }
 
-export async function saveSchedule(state: FormState, formData: FormData) {
+export async function saveSchedule(state: FormState, formData: FormData): Promise<FormState> {
     try {
         const rawDate = formData.get('date');
         const rawTime = formData.get('time');
         const rawUserEmail = formData.get('userEmail');
         const rawServiceId = formData.get('serviceId');
 
-
         const dateStr = typeof rawDate === 'string' ? rawDate : '';
         const timeStr = typeof rawTime === 'string' ? rawTime : '';
         const userEmailStr = typeof rawUserEmail === 'string' ? rawUserEmail : '';
         const serviceIdStr = typeof rawServiceId === 'string' ? rawServiceId : '';
-
 
         // 1. Validate form fields
         const validatedFields = ScheduleFormSchema.safeParse({
@@ -65,28 +63,32 @@ export async function saveSchedule(state: FormState, formData: FormData) {
 
         if (!validatedFields.success) {
             return {
+                success: false,
                 errors: validatedFields.error.flatten().fieldErrors
             };
         }
 
-        const { date, time, userEmail, serviceId } = validatedFields.data
+        const { date, time, userEmail, serviceId } = validatedFields.data;
 
         const service = await ServicesModel.findById(serviceId);
         if (!service) {
             return {
+                success: false,
                 errors: { serviceId: ['Invalid Service'] }
             };
         }
+        
         const user = await User.findOne({ email: userEmail });
         if (!user) {
             return {
+                success: false,
                 errors: { userEmail: ['Invalid User'] }
             };
         }
 
         const schedule = await ScheduleModel.create({
             date, time, userId: user._id, serviceId
-        })
+        });
 
         return {
             success: true,
@@ -100,7 +102,6 @@ export async function saveSchedule(state: FormState, formData: FormData) {
             errors: { _form: ['An unexpected error occurred. Please try again.'] }
         };
     }
-
 }
 
 

@@ -132,19 +132,7 @@ function BillingCard({ schedule }: BillingCardProps) {
                                 Edit
                             </Typography>
                         </Button>
-                        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                        <Button
-                            size="sm"
-                            variant="text"
-                            color="red"
-                            className="flex items-center gap-2"
-                        >
-                            <TrashIcon className="h-4 w-4 text-red-500" />
-                            {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                            <Typography className="!font-semibold text-xs text-red-500 md:block hidden">
-                                delete
-                            </Typography>
-                        </Button>
+                        
                     </div>
                 </div>
                 <div>

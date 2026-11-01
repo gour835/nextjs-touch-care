@@ -54,7 +54,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
     };
 
     const session = useSession();
-    const user_email = session.data?.user?.email;
+    const user_email = session.data?.user?.email || '';
     const router = useRouter();
     const path = usePathname()
 
@@ -66,7 +66,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
             setOpen(!open);
         }
     }
-    
+
     const [state, action, isPending] = useActionState(saveSchedule, undefined);
 
     return (
@@ -100,11 +100,11 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                             </Typography>
                             {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                             <Typography color="blue-gray" variant="h6">
-                                {state?.success? 50: 0}
+                                {state?.success ? 50 : 0}
                             </Typography>
                         </div>
                         {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                        <Progress value={state?.success? 50: 0} />
+                        <Progress value={state?.success ? 50 : 0} />
                     </div>
                 </DialogHeader>
                 {/* @ts-expect-error - Material Tailwind type mismatch fix */}
@@ -121,7 +121,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                         {state?.success && (
                             <div className="bg-green-300 rounded-lg p-2">
 
-                            <p className="text-black">{state.message}</p>
+                                <p className="text-black">{state.message}</p>
                             </div>
                         )}
                         <div>
@@ -137,7 +137,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                                 className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-800 ring-4 ring-transparent placeholder:text-gray-600 focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
                                 placeholder="1"
                                 disabled={state?.success && true}
-                                    aria-disabled={state?.success && true}
+                                aria-disabled={state?.success && true}
                                 labelProps={{
                                     className: "hidden",
                                 }}
@@ -238,9 +238,11 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                                 }}
                             />
 
-                            <div className={`${showPayment ? 'block' : 'hidden'} transition-all duration-500 my-2`}>
-                                <PurchaseButton price={price} scheduleId={state?.success && state?.scheduleId}/>
-                            </div>
+                            {state?.scheduleId && (
+                                <div className={`${showPayment ? 'block' : 'hidden'} transition-all duration-500 my-2`}>
+                                    <PurchaseButton price={price} scheduleId={state.scheduleId} />
+                                </div>
+                            )}
                         </div>
 
                     </form>
