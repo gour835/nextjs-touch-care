@@ -11,99 +11,109 @@ import { revalidatePath } from 'next/cache';
 Mongoose();
 
 export async function signup(state: FormState, formData: FormData) {
-  // Validate form fields
-  const validatedFields = await SignupFormSchema.safeParseAsync({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    password: formData.get('password'),
-  })
-
-  // If any form fields are invalid, return early
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
+  try {
+    // Validate form fields
+    const validatedFields = await SignupFormSchema.safeParseAsync({
+      name: formData.get('name'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+    })
+  
+    // If any form fields are invalid, return early
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+      }
     }
-  }
-
-  // Call the provider or db to create a user...
-
-  // 2. Prepare data for insertion into database
-  const { name, email, password } = validatedFields.data
-  // e.g. Hash the user's password before storing it
-  const hashedPassword = await bcrypt.hash(password, 10)
-
-  // 3. Insert the user into the database or call an Auth Library's API
-  const user = await User.create({ name, email, password: hashedPassword });
-
-  if (!user) {
-    return {
-      message: 'An error occurred while creating your account.',
+  
+    // Call the provider or db to create a user...
+  
+    // 2. Prepare data for insertion into database
+    const { name, email, password } = validatedFields.data
+    // e.g. Hash the user's password before storing it
+    const hashedPassword = await bcrypt.hash(password, 10)
+  
+    // 3. Insert the user into the database or call an Auth Library's API
+    const user = await User.create({ name, email, password: hashedPassword });
+  
+    if (!user) {
+      return {
+        message: 'An error occurred while creating your account.',
+      }
     }
+  
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: "/",
+    });
+  } catch (error) {
+    console.error("SERVER ACTION ERROR:", error);
+    throw error; // Re-throw so Next.js handles it
   }
-
-  await signIn("credentials", {
-    email,
-    password,
-    redirectTo: "/",
-  });
   
 }
 
 export async function login(state: FormState, formData: FormData) {
-  // Validate form fields
-  const rawEmail = formData.get('email');
-  const rawPassword = formData.get('password');
-  const rawRedirect = formData.get('redirect');
-
-  const emailStr = typeof rawEmail === 'string' ? rawEmail : '';
-  const passwordStr = typeof rawPassword === 'string' ? rawPassword : '';
-  const redirectStr = typeof rawRedirect === 'string' ? rawRedirect : '';
-
-  // 1. Validate form fields
-  const validatedFields = LoginFormSchema.safeParse({
-    email: emailStr,
-    password: passwordStr,
-    redirect: redirectStr,
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      fields: { email: emailStr },
-    };
+  try {
+    // Validate form fields
+    const rawEmail = formData.get('email');
+    const rawPassword = formData.get('password');
+    const rawRedirect = formData.get('redirect');
+  
+    const emailStr = typeof rawEmail === 'string' ? rawEmail : '';
+    const passwordStr = typeof rawPassword === 'string' ? rawPassword : '';
+    const redirectStr = typeof rawRedirect === 'string' ? rawRedirect : '';
+  
+    // 1. Validate form fields
+    const validatedFields = LoginFormSchema.safeParse({
+      email: emailStr,
+      password: passwordStr,
+      redirect: redirectStr,
+    });
+  
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+        fields: { email: emailStr },
+      };
+    }
+  
+    // Call the provider or db to create a user...
+  
+    // 2. Prepare data for insertion into database
+    const { email, password, redirect } = validatedFields.data
+    console.log(redirect);
+  
+    // 3. checking the user exists in the database
+    const user = await User.findOne({ email });
+  
+    if (!user) {
+     return {
+        errors: { email: ['Invalid email address.'] },
+        fields: { email }
+      };
+    }
+  
+    // 4. checking the password
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+    if (!isPasswordValid) {
+      return {
+        errors: { password: ['Invalid password.'] },
+        fields: { email }
+      };
+    }
+    revalidatePath("/", "layout");
+  
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: redirect,
+    });
+  } catch (error) {
+    console.error("SERVER ACTION ERROR:", error);
+    throw error; // Re-throw so Next.js handles it
   }
-
-  // Call the provider or db to create a user...
-
-  // 2. Prepare data for insertion into database
-  const { email, password, redirect } = validatedFields.data
-  console.log(redirect);
-
-  // 3. checking the user exists in the database
-  const user = await User.findOne({ email });
-
-  if (!user) {
-   return {
-      errors: { email: ['Invalid email address.'] },
-      fields: { email }
-    };
-  }
-
-  // 4. checking the password
-  const isPasswordValid = await bcrypt.compare(password, user.password)
-  if (!isPasswordValid) {
-    return {
-      errors: { password: ['Invalid password.'] },
-      fields: { email }
-    };
-  }
-  revalidatePath("/", "layout");
-
-  await signIn("credentials", {
-    email,
-    password,
-    redirectTo: redirect,
-  });
 }
 
 export async function logout() {
