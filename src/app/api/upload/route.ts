@@ -1,0 +1,49 @@
+import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
+import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
+
+interface UploadTokenPayload {
+  userId: string;
+}
+
+export async function POST(request: Request): Promise<NextResponse> {
+  const body = (await request.json()) as HandleUploadBody;
+  
+  try {
+    const jsonResponse = await handleUpload({
+      body,
+      request,
+      onBeforeGenerateToken: async (pathname) => {
+        const session = await auth();
+        
+        if (!session || !session.user?.id) {
+          throw new Error('Not authenticated');
+        }
+
+        const payload: UploadTokenPayload = {
+          userId: session.user.id,
+        };
+
+        return {
+          allowedContentTypes: ['image/jpeg', 'image/png', 'image/webp'],
+          addRandomSuffix: true,
+          tokenPayload: JSON.stringify(payload),
+        };
+      },
+      onUploadCompleted: async ({ blob, tokenPayload }) => {
+        const { userId } = JSON.parse(tokenPayload!) as UploadTokenPayload;
+        
+        console.log(`User ${userId} uploaded file to ${blob.url}`);
+        
+        // TODO: Update the database with blob.url and userId
+      },
+    });
+    
+    return NextResponse.json(jsonResponse);
+  } catch (error) {
+    return NextResponse.json(
+      { error: (error as Error).message },
+      { status: 400 },
+    );
+  }
+}
