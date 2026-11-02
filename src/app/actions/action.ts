@@ -7,6 +7,19 @@ import { OrderModel } from "@/models/order";
 import { PipelineStage } from "mongoose";
 import { Schedule } from "@/components/billing";
 
+
+export async function getUserMobile(email: string) {
+    try {
+        const user = await User.findOne({ email }).select('mobile').lean();
+        if (!user.mobile) {
+            console.log(user);
+            return { success: false }
+        }
+        return { success: true, mobile: user.mobile };
+    } catch (error) {
+        console.log('error fetching resource', error);
+    }
+}
 export async function getAllServices() {
     try {
         const services = await ServicesModel.find({}).lean();
@@ -45,11 +58,13 @@ export async function saveSchedule(state: FormState, formData: FormData): Promis
     try {
         const rawDate = formData.get('date');
         const rawTime = formData.get('time');
+        const rawMobile = formData.get('mobile');
         const rawUserEmail = formData.get('userEmail');
         const rawServiceId = formData.get('serviceId');
 
         const dateStr = typeof rawDate === 'string' ? rawDate : '';
         const timeStr = typeof rawTime === 'string' ? rawTime : '';
+        const mobileStr = typeof rawMobile === 'string' ? rawMobile : '';
         const userEmailStr = typeof rawUserEmail === 'string' ? rawUserEmail : '';
         const serviceIdStr = typeof rawServiceId === 'string' ? rawServiceId : '';
 
@@ -57,6 +72,7 @@ export async function saveSchedule(state: FormState, formData: FormData): Promis
         const validatedFields = ScheduleFormSchema.safeParse({
             date: dateStr,
             time: timeStr,
+            mobile: mobileStr,
             userEmail: userEmailStr,
             serviceId: serviceIdStr
         });
@@ -68,7 +84,13 @@ export async function saveSchedule(state: FormState, formData: FormData): Promis
             };
         }
 
-        const { date, time, userEmail, serviceId } = validatedFields.data;
+        const {
+            date,
+            time,
+            mobile,
+            userEmail,
+            serviceId
+        } = validatedFields.data;
 
         const service = await ServicesModel.findById(serviceId);
         if (!service) {
@@ -77,7 +99,7 @@ export async function saveSchedule(state: FormState, formData: FormData): Promis
                 errors: { serviceId: ['Invalid Service'] }
             };
         }
-        
+
         const user = await User.findOne({ email: userEmail });
         if (!user) {
             return {
@@ -85,6 +107,11 @@ export async function saveSchedule(state: FormState, formData: FormData): Promis
                 errors: { userEmail: ['Invalid User'] }
             };
         }
+        if(!user.mobile || user.mobile == ''){
+            user.mobile = mobile;
+            await user.save()
+        }
+
 
         const schedule = await ScheduleModel.create({
             date, time, userId: user._id, serviceId

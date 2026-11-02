@@ -24,13 +24,21 @@ interface TitleProps {
     title: string;
     _id: string;
 }
+interface ServiceModelProps {
+    titles: TitleProps[],
+    titleValue: string,
+    price: number,
+    userMobile: string
+}
 
-export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps[], titleValue: string, price: number }) {
+export function ServiceModel({ titles, titleValue, price, userMobile }: ServiceModelProps) {
     const [open, setOpen] = useState(false);
     const [titleState, setTitleState] = useState<string>(titleValue ?? '');
+    const [UserMobile, setUserMobile] = useState<string>(userMobile ?? "");
     const [showPayment, setShowPayment] = useState<boolean>(false);
-    const [selectedDate, setSelectedDate] = useState("");
-    const [selectedTime, setSelectedTime] = useState("");
+    const [selectedDate, setSelectedDate] = useState<string>("");
+    const [selectedTime, setSelectedTime] = useState<string>("");
+    
 
     const now = new Date();
     const todayStr = now.toISOString().split("T")[0];
@@ -186,7 +194,7 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                                     }} />
                                 {state?.errors?.date && <p className="text-red-400 mt-1 text-sm">{state.errors.date}</p>}
                             </div>
-                            <div className="w-full">
+                            <div className="w-full ">
                                 <Typography
                                     variant="small"
                                     color="blue-gray"
@@ -216,6 +224,39 @@ export function ServiceModel({ titles, titleValue, price }: { titles: TitleProps
                                 {state?.errors?.time && <p className="text-red-400 mt-1 text-sm">{state.errors.time}</p>}
                             </div>
                         </div>
+                        <div className="w-full my-2">
+                            <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="mb-2 text-left font-medium" onResize={undefined} onResizeCapture={undefined}              >
+                                Mobile Number
+                            </Typography>
+                            {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
+                            <Input
+                                type="tel"
+                                color="gray"
+                                size="lg"
+                                placeholder="eg.9233445566"
+                                name="mobile"
+                                maxLength={10}
+                                inputMode="numeric"
+                                value={UserMobile}
+                                className="placeholder:opacity-100 focus:!border-t-gray-900"
+                                required
+                                onChange={(e)=>{
+                                    console.log(e.target.value)
+                                    setUserMobile(e.target.value)
+                                }}
+                                containerProps={{
+                                    className: "!min-w-full",
+                                }}
+
+                                labelProps={{
+                                    className: "hidden",
+                                }} />
+                            {state?.errors?.mobile && <p className="text-red-400 mt-1 text-sm">{state.errors.mobile}</p>}
+                        </div>
+
 
                         <Button type="submit" disabled={isPending || state?.success} className={`"ml-auto" ${state?.success && 'hidden'}`} onResize={undefined} onResizeCapture={undefined}>
                             Add Schedule

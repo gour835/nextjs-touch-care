@@ -51,6 +51,19 @@ interface BillingCardProps {
     schedule: Schedule;
 }
 
+function TimeConversion(time: string){
+    let Hours = Number(time.slice(0,2));
+    let Minutes = time.slice(3);
+
+    if(Hours <= 12){
+        return time.concat(' AM');
+    }else{
+        Hours -= 12;
+        return `${Hours}:${Minutes} PM`;
+    }
+
+}
+
 function BillingCard({ schedule }: BillingCardProps) {
     // 1. Extract populated service object safely
     const service = schedule && typeof schedule.serviceId === 'object' ? schedule.serviceId : null;
@@ -60,12 +73,14 @@ function BillingCard({ schedule }: BillingCardProps) {
     // 2. Extract populated order details
     const order = schedule.orderDetails;
 
+    const ScheduleTime = TimeConversion(schedule.time);
+
     // 3. Format dates and values safely
     const scheduleDate = schedule?.date ? new Date(schedule.date).toLocaleDateString('en-IN', {
         day: 'numeric',
         month: 'short',
         year: 'numeric'
-    }) : 'N/A';
+    }) .concat(' ', ScheduleTime) : 'N/A';
 
     const isPaid = order?.status === 'paid' || schedule.paymentDone;
 

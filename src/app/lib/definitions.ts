@@ -51,6 +51,11 @@ export const ScheduleFormSchema = z.object({
   time: z.string().time({
     message: "Invalid time format (expected HH:MM)",
   }),
+  mobile: z
+    .string()
+    .min(10, {error: 'Mobile Number should be 10 digits'})
+    .max(10, {error: 'Mobile Number should be 10 digits'})
+    .trim()
 })
 
 export type FormState = {
@@ -61,6 +66,7 @@ export type FormState = {
     name?: string[];
     email?: string[];
     password?: string[];
+    mobile?: string[];
     date?: string[];
     time?: string[];
     userEmail?: string[];
