@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 
 interface UploadTokenPayload {
-  userId: string;
+  userEmail: string;
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -20,16 +20,21 @@ export async function POST(request: Request): Promise<NextResponse> {
           throw new Error('Not authenticated');
         }
 
+        const payload: UploadTokenPayload = {
+          userEmail: session.user?.email ?? '',
+        };
 
         return {
           allowedContentTypes: ['image/jpeg', 'image/png', 'image/webp'],
           addRandomSuffix: true,
-          
+          access: 'private',
+          tokenPayload: JSON.stringify(payload),
         };
       },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
+        const { userEmail } = JSON.parse(tokenPayload!) as UploadTokenPayload;
         
-        console.log(`User  uploaded file to ${blob.url}`);
+        console.log(`User ${userEmail} uploaded file to ${blob.url}`);
         
         // TODO: Update the database with blob.url and userId
         
