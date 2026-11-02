@@ -16,13 +16,10 @@ export async function POST(request: Request): Promise<NextResponse> {
       onBeforeGenerateToken: async (pathname) => {
         const session = await auth();
         
-        if (!session || !session.user?.id) {
+        if (!session || !session.user) {
           throw new Error('Not authenticated');
         }
 
-        const payload: UploadTokenPayload = {
-          userId: session.user.id,
-        };
 
         return {
           allowedContentTypes: ['image/jpeg', 'image/png', 'image/webp'],
@@ -31,11 +28,11 @@ export async function POST(request: Request): Promise<NextResponse> {
         };
       },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
-        const { userId } = JSON.parse(tokenPayload!) as UploadTokenPayload;
         
-        console.log(`User ${userId} uploaded file to ${blob.url}`);
+        console.log(`User  uploaded file to ${blob.url}`);
         
         // TODO: Update the database with blob.url and userId
+        
       },
     });
     
