@@ -1,6 +1,5 @@
-import { Typography, Button, IconButton } from "@material-tailwind/react";
+import { Typography, IconButton } from "@material-tailwind/react";
 
-const CURRENT_YEAR = new Date().getFullYear();
 const LINKS = ["Company", "About Us", "Team", "Products", "Blog"];
 
 export function Footer() {
@@ -14,7 +13,7 @@ export function Footer() {
             href="/"
             variant="h6"
             className="text-gray-900" onResize={undefined} onResizeCapture={undefined}          >
-            Touch & Care
+            Touch & Fair
           </Typography>
           <ul className="flex justify-center my-4 md:my-0 w-max mx-auto items-center gap-4">
             {LINKS.map((link, index) => (

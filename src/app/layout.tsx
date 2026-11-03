@@ -5,6 +5,7 @@ import { ClientLayout, FixedPlugin } from "@/components";
 import Script from "next/script";
 import Providers from "@/components/providers";
 import { Toaster } from "react-hot-toast";
+import WhatsAppButton from "@/components/whatsAppButton";
 
 const prata = Prata({
   subsets: ["latin"],
@@ -39,6 +40,8 @@ export default function RootLayout({
             <FixedPlugin />
           </ClientLayout>
         </Providers>
+
+        <WhatsAppButton/>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"

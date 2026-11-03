@@ -1,11 +1,13 @@
 'use server';
 import { ServicesModel } from "@/models/services";
-import { FormState, ScheduleFormSchema } from "../lib/definitions";
+import { FormState, ScheduleFormSchema, transformationFormSchema } from "../lib/definitions";
 import User from "@/models/users";
 import { ScheduleModel } from "@/models/schedule";
 import { OrderModel } from "@/models/order";
 import { PipelineStage } from "mongoose";
 import { Schedule } from "@/components/billing";
+import { TransformationModel } from "@/models/transformation";
+import z from "zod";
 
 
 export async function getUserMobile(email: string) {
@@ -107,7 +109,7 @@ export async function saveSchedule(state: FormState, formData: FormData): Promis
                 errors: { userEmail: ['Invalid User'] }
             };
         }
-        if(!user.mobile || user.mobile == ''){
+        if (!user.mobile || user.mobile == '') {
             user.mobile = mobile;
             await user.save()
         }
@@ -130,7 +132,6 @@ export async function saveSchedule(state: FormState, formData: FormData): Promis
         };
     }
 }
-
 
 export async function getSchedulesWithOrderDetails(email: string) {
     try {
@@ -192,5 +193,16 @@ export async function getSchedulesWithOrderDetails(email: string) {
     catch (error) {
         console.error('Error fetching schedules:', error);
         return { success: false, error: error };
+    }
+}
+
+export async function saveTransitions(beforeUrl: string, afterUrl: string, name: string){
+    try {
+        const transition = await TransformationModel.create({name, before: beforeUrl, after: afterUrl});
+
+        return {success: true, transition};
+    } catch (error) {
+        console.log('error saving transitions: ', error)
+        return {success: false, error};
     }
 }

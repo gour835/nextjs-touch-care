@@ -58,6 +58,11 @@ export const ScheduleFormSchema = z.object({
     .trim()
 })
 
+export const transformationFormSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  before: z.string().url('Before image URL is invalid'),
+  after: z.string().url('After image URL is invalid'),
+});
 export type FormState = {
   success?: boolean;
   message?: string;

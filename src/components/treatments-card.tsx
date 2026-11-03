@@ -45,7 +45,7 @@ export function TreatmentsCard({
           {title}
         </Typography>
         <Typography variant="small" color="blue-gray" className="mb-4 ml-1 font-medium font-[inherit] text-amber-100" onResize={undefined} onResizeCapture={undefined}>
-          Starting From /- {String(price)} 
+          Starting From /- ₹{String(price)} 
         </Typography>
         <ul  className=" mb-12 md:w-10/12 font-medium font-[inherit] text-white flex flex-col gap-2 text-md list-disc list-inside" >
           {sub?.map((sub,index)=>(
