@@ -41,7 +41,7 @@ export default function AvatarUploadPage() {
       }
 
       const uploadResults = await Promise.all(uploadPromises);
-      const transitionsResponse = await saveTransitions(name, uploadResults[0].url, uploadResults[1].url);
+      const transitionsResponse = await saveTransitions(uploadResults[0].url, uploadResults[1].url, name);
       if(!transitionsResponse.success){
         console.log('error', transitionsResponse.error);
       }else{
