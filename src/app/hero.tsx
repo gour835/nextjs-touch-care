@@ -25,7 +25,7 @@ function Hero() {
                 className="w-20 h-20 lg:w-16 lg:h-16 object-fit "
               />
               <span className="my-1 hidden lg:block lg:my-3">
-                Touch & Care
+                Touch & Fair
 
               </span>
             </div>

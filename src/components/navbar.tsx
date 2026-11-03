@@ -96,7 +96,7 @@ export function Navbar() {
               className="w-10 h-10 object-fit "
             />
             <span className={`my-2  ${isScrolling ? ' text-[#4A1525] ' : 'text-[#d9bf77]'} group-hover:text-[#4A1525] transition-all duration-300 font-semibold `} >
-              Touch & Care
+              Touch & Fair
 
             </span>
           </Link>
