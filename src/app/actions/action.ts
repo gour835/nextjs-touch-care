@@ -3,11 +3,9 @@ import { ServicesModel } from "@/models/services";
 import { FormState, ScheduleFormSchema, transformationFormSchema } from "../lib/definitions";
 import User from "@/models/users";
 import { ScheduleModel } from "@/models/schedule";
-import { OrderModel } from "@/models/order";
 import { PipelineStage } from "mongoose";
 import { Schedule } from "@/components/billing";
 import { TransformationModel } from "@/models/transformation";
-import z from "zod";
 
 
 export async function getUserMobile(email: string) {
@@ -203,6 +201,16 @@ export async function saveTransitions(beforeUrl: string, afterUrl: string, name:
         return {success: true, transition};
     } catch (error) {
         console.log('error saving transitions: ', error)
+        return {success: false, error};
+    }
+}
+
+export async function getAllTransitions(){
+    try {
+        const transitions = await TransformationModel.find({}).lean();
+        return {success: true, transitions : JSON.parse(JSON.stringify(transitions))};
+    } catch (error) {
+        console.log('something went wrong: ', error)
         return {success: false, error};
     }
 }

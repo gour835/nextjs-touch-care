@@ -17,8 +17,12 @@ interface AboutCardProp {
 
 export function AboutCard({ title, description, subTitle, background, button }: AboutCardProp) {
   return (
-    <Card className="w-full" shadow={false} onResize={undefined} onResizeCapture={undefined}>
-      <CardBody className={`h-[453px] ${button && 'p-5'} flex flex-col justify-end items-center rounded-2xl   ${background ? background : 'bg-gray-900'} `} onResize={undefined} onResizeCapture={undefined}>
+    <Card className="w-full" shadow={false} onResize={undefined} onResizeCapture={undefined}> {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
+
+      <CardBody
+        className={`h-[453px] flex flex-col justify-end items-center rounded-2xl border border-gray-400 ${button ? 'p-5' : ''} ${background ? 'bg-contain bg-no-repeat bg-center' : 'bg-gray-900'}`}
+        style={background ? { backgroundImage: `url(${background})` } : undefined}
+      >
         <Typography variant="h6" className="mb-4 text-center" color="white" onResize={undefined} onResizeCapture={undefined}>
           {subTitle}
         </Typography>
@@ -33,16 +37,16 @@ export function AboutCard({ title, description, subTitle, background, button }: 
             {description}
           </Typography>
           <Link href={'/transitions'} >
-          <Button
-            color="white"
-            size="md"
-            className={`rounded-md bg-yellow-300/75 backdrop-blur-md border border-yellow-300/75 hover:bg-yellow-300 hover:shadow hover:shadow-yellow-300 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] ${button ?? 'hidden'}`}
-            onResize={undefined}
-            onResizeCapture={undefined}
-           
-          >
-            View More Transitions
-          </Button>
+            <Button
+              color="white"
+              size="md"
+              className={`rounded-md bg-yellow-300/75 backdrop-blur-md border border-yellow-300/75 hover:bg-yellow-300 hover:shadow hover:shadow-yellow-300 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] ${button ?? 'hidden'}`}
+              onResize={undefined}
+              onResizeCapture={undefined}
+
+            >
+              View More Transitions
+            </Button>
           </Link>
         </div>
       </CardBody>

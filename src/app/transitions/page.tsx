@@ -1,19 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
-'use client';
+'use server';
 import { Footer, Navbar } from "@/components";
 import Transition from "../transitions";
+import { getAllTransitions } from "../actions/action";
 
 
-function Transitions() {
-    
-
+async function transitions() {
+    const transitionsResponse = await getAllTransitions();
+    const data = transitionsResponse?.success ? transitionsResponse.transitions : [];
+    console.log(transitionsResponse);
     return (
         <>
         <Navbar/>
-        <Transition/>
+        <Transition transitions={data}/>
         <Footer/>
         </>
     );
 }
 
-export default Transitions;
+export default transitions;
