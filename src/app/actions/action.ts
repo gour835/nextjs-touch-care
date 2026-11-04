@@ -6,6 +6,7 @@ import { ScheduleModel } from "@/models/schedule";
 import { PipelineStage } from "mongoose";
 import { Schedule } from "@/components/billing";
 import { TransformationModel } from "@/models/transformation";
+import { TestimonialsModel } from "@/models/testimonials";
 
 
 export async function getUserMobile(email: string) {
@@ -20,16 +21,16 @@ export async function getUserMobile(email: string) {
         console.log('error fetching resource', error);
     }
 }
-export async function getUserAdmin(email: string){
+export async function getUserAdmin(email: string) {
     try {
-        const user = await User.findOne({email}).select('type').lean();
-        if(!user || user.type != 'admin'){
-            return{success: false, message: 'User not found or Not Authorized'};
+        const user = await User.findOne({ email }).select('type').lean();
+        if (!user || user.type != 'admin') {
+            return { success: false, message: 'User not found or Not Authorized' };
         }
-        return{ success: true};
+        return { success: true };
     } catch (error) {
         console.log('error happened', error);
-        return {success: false, error};
+        return { success: false, error };
     }
 }
 export async function getAllServices() {
@@ -227,16 +228,37 @@ export async function getAllTransitions(page: number = 1) {
                 .sort({ createdAt: -1 }) // Sort newest first
                 .skip(skip)
                 .limit(limit)
-                .lean(), 
+                .lean(),
             TransformationModel.countDocuments({})
         ]);
 
         // 5. Calculate total pages for UI controls
         const totalPages = Math.ceil(totalDocuments / limit);
         const transitions = await TransformationModel.find({}).lean();
-        return { success: true, transitions: JSON.parse(JSON.stringify(Transformation)), totalPages};
+        return { success: true, transitions: JSON.parse(JSON.stringify(Transformation)), totalPages };
     } catch (error) {
         console.log('something went wrong: ', error)
+        return { success: false, error };
+    }
+}
+
+export async function saveTestimonials(
+    url: string,
+    name: string,
+    instagram: string | undefined,
+    facebook: string | undefined,
+    youtube: string | undefined
+) {
+    try {
+        await TestimonialsModel.create({
+            url, name,
+            social: {
+                instagram, facebook, youtube
+            }
+        })
+        return {success: true}
+    } catch (error) {
+        console.log('error in saving Testimonials', error);
         return { success: false, error };
     }
 }

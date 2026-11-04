@@ -14,13 +14,11 @@ interface EventContentCardProps {
   des: string;
   name: string;
   position: string;
-  panel: string;
   img: string;
 }
 export function EventContentCard({
   title,
   des,
-  panel,
   img,
 }: EventContentCardProps) {
   const router = useRouter();
@@ -42,9 +40,6 @@ export function EventContentCard({
         />
       </CardHeader>
       <CardBody className="col-span-full lg:col-span-3" onResize={undefined} onResizeCapture={undefined}>
-        <Typography variant="h6" color="blue-gray" className="mb-4" onResize={undefined} onResizeCapture={undefined}>
-          {panel}
-        </Typography>
         <Typography variant="h2" color="blue-gray" className="mb-4 font-medium" onResize={undefined} onResizeCapture={undefined}>
           {title}
         </Typography>

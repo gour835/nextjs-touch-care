@@ -18,6 +18,8 @@ import { getAllServices } from "./actions/action";
 export default async function Portfolio() {
   const serviceResponse = await getAllServices();
   const services = serviceResponse?.success && serviceResponse.data
+
+  
   return (
     <>
     
