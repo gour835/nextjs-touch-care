@@ -20,6 +20,18 @@ export async function getUserMobile(email: string) {
         console.log('error fetching resource', error);
     }
 }
+export async function getUserAdmin(email: string){
+    try {
+        const user = await User.findOne({email}).select('type').lean();
+        if(!user || user.type != 'admin'){
+            return{success: false, message: 'User not found or Not Authorized'};
+        }
+        return{ success: true};
+    } catch (error) {
+        console.log('error happened', error);
+        return {success: false, error};
+    }
+}
 export async function getAllServices() {
     try {
         const services = await ServicesModel.find({}).lean();
