@@ -194,23 +194,37 @@ export async function getSchedulesWithOrderDetails(email: string) {
     }
 }
 
-export async function saveTransitions(beforeUrl: string, afterUrl: string, name: string){
+export async function saveTransitions(beforeUrl: string, afterUrl: string, name: string) {
     try {
-        const transition = await TransformationModel.create({name, before: beforeUrl, after: afterUrl});
+        const transition = await TransformationModel.create({ name, before: beforeUrl, after: afterUrl });
 
-        return {success: true, transition};
+        return { success: true, transition };
     } catch (error) {
         console.log('error saving transitions: ', error)
-        return {success: false, error};
+        return { success: false, error };
     }
 }
 
-export async function getAllTransitions(){
+export async function getAllTransitions(page: number = 1) {
     try {
+        const limit = 3
+        const skip = (page - 1) * limit;
+
+        const [Transformation, totalDocuments] = await Promise.all([
+            TransformationModel.find({})
+                .sort({ createdAt: -1 }) // Sort newest first
+                .skip(skip)
+                .limit(limit)
+                .lean(), 
+            TransformationModel.countDocuments({})
+        ]);
+
+        // 5. Calculate total pages for UI controls
+        const totalPages = Math.ceil(totalDocuments / limit);
         const transitions = await TransformationModel.find({}).lean();
-        return {success: true, transitions : JSON.parse(JSON.stringify(transitions))};
+        return { success: true, transitions: JSON.parse(JSON.stringify(Transformation)), totalPages};
     } catch (error) {
         console.log('something went wrong: ', error)
-        return {success: false, error};
+        return { success: false, error };
     }
 }

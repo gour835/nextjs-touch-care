@@ -24,7 +24,7 @@ interface TransitionsProps{
   before: string;
   name: string;
 }
-export function Transition({transitions}: {transitions: TransitionsProps[]}) {
+export function Transition({transitions, totalPages}: {transitions: TransitionsProps[], totalPages: number}) {
   return (
     <section className="container mx-auto flex flex-col items-center px-4 mt-7 lg:mt-5 py-10">
       <Typography variant="h6" className="text-center mb-2 text-[#d9bf77] font-[inherit]" color="inherit" onResize={undefined} onResizeCapture={undefined}>
@@ -53,7 +53,7 @@ export function Transition({transitions}: {transitions: TransitionsProps[]}) {
         ))}
 
       </div>
-      <SimplePagination/>
+      <SimplePagination totalPages={totalPages || 3}/>
     </section>
   );
 }
