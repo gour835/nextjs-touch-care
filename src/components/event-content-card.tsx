@@ -39,7 +39,7 @@ export function EventContentCard({testimony}: {testimony: TestimonialsProps}) {
         </Typography>
 
         <div className="flex flex-row gap-14 justify-center lg:justify-start">
-          {testimony.social.instagram && <Link href={'/instagram'}>
+          {testimony.social.instagram && <Link href={testimony.social.instagram}>
           <Avatar
             variant="circular"
             src="/logos/instagram.png"
@@ -49,7 +49,7 @@ export function EventContentCard({testimony}: {testimony: TestimonialsProps}) {
             />
             </Link>}
           
-          {testimony.social.facebook &&  <Link href={'facebood'}>
+          {testimony.social.facebook &&  <Link href={testimony.social.facebook}>
             <Avatar
               variant="circular"
               src="/logos/status.png"
@@ -60,7 +60,7 @@ export function EventContentCard({testimony}: {testimony: TestimonialsProps}) {
             />
           </Link>}
          
-          {testimony.social.youtube && <Link href={'youtube'}>
+          {testimony.social.youtube && <Link href={testimony.social.youtube}>
           <Avatar
             variant="circular"
             src="/logos/play.png"
