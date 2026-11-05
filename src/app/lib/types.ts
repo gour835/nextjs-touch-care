@@ -4,3 +4,15 @@ export interface ServiceProp{
   price: Number;
   img: string
 }
+
+export interface TestimonialsProps{
+  name: string;
+  url: string;
+  des: string;
+  social: {
+    instagram: string | undefined,
+    facebook: string | undefined,
+    youtube: string | undefined,
+
+  }
+}

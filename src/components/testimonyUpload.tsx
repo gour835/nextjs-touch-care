@@ -3,7 +3,7 @@ import { saveTestimonials, saveTransitions } from "@/app/actions/action";
 import { upload } from "@vercel/blob/client";
 import { useState } from "react";
 import Navbar from "./navbar";
-import { Button, Input, Typography } from "@material-tailwind/react";
+import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 import toast from "react-hot-toast";
 
 export default function TestimonyUploadPage() {
@@ -19,6 +19,7 @@ export default function TestimonyUploadPage() {
         try {
             const formData = new FormData(e.currentTarget);
             const name = formData.get('name') as string;
+            const des = formData.get('des') as string;
             const instagram = formData.get('instagram') as string;
             const facebook = formData.get('facebook') as string;
             const youtube = formData.get('youtube') as string;
@@ -45,12 +46,13 @@ export default function TestimonyUploadPage() {
                 access: 'public',
                 handleUploadUrl: '/api/upload',
             })
-            const testimonialsResponse = await saveTestimonials(uploadResults.url, name, instagram, facebook, youtube);
+            const testimonialsResponse = await saveTestimonials(uploadResults.url, name,des, instagram, facebook, youtube);
             if (!testimonialsResponse.success) {
                 console.log('error', testimonialsResponse.error);
             } else {
                 // uploadResults contains the response blobs for both files
                 console.log('Uploaded successfully:', { name, uploadResults });
+                
             }
 
         } catch (error) {
@@ -77,6 +79,15 @@ export default function TestimonyUploadPage() {
                         </Typography>
                         {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
                         <Input type="text" name='name' placeholder='Please enter the name here' />
+                    </div>
+
+                    <div className="w-full">
+                        {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
+                        <Typography >
+                            Description:
+                        </Typography>
+                        {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
+                        <Textarea type="text" name='des' placeholder='Please enter the description here' />
                     </div>
 
                     <div className="w-full">

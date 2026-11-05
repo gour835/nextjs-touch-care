@@ -9,6 +9,10 @@ const testimonialsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    des:{
+        type: String,
+        default: null
+    },
     social: {
         instagram: {type: String, default: null},
         facebook: {type: String, default: null},

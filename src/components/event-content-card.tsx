@@ -8,19 +8,10 @@ import {
 } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { TestimonialsProps } from "@/app/lib/types";
 
-interface EventContentCardProps {
-  title: string;
-  des: string;
-  name: string;
-  position: string;
-  img: string;
-}
-export function EventContentCard({
-  title,
-  des,
-  img,
-}: EventContentCardProps) {
+
+export function EventContentCard({testimony}: {testimony: TestimonialsProps}) {
   const router = useRouter();
   return (
     <Card
@@ -34,21 +25,21 @@ export function EventContentCard({
         <Image
           width={768}
           height={768}
-          src={img}
+          src={testimony.url}
           alt="testimonial image"
           className="h-full w-full object-cover"
         />
       </CardHeader>
       <CardBody className="col-span-full lg:col-span-3" onResize={undefined} onResizeCapture={undefined}>
         <Typography variant="h2" color="blue-gray" className="mb-4 font-medium" onResize={undefined} onResizeCapture={undefined}>
-          {title}
+          {testimony.name}
         </Typography>
         <Typography className="mb-12 md:w-8/12 font-medium !text-gray-500" onResize={undefined} onResizeCapture={undefined}>
-          {des}
+          {testimony.des}
         </Typography>
 
         <div className="flex flex-row gap-14 justify-center lg:justify-start">
-          <Link href={'/instagram'}>
+          {testimony.social.instagram && <Link href={'/instagram'}>
           <Avatar
             variant="circular"
             src="/logos/instagram.png"
@@ -56,8 +47,9 @@ export function EventContentCard({
             alt="instagram link"
             size="lg" onResize={undefined} onResizeCapture={undefined}
             />
-            </Link>
-          <Link href={'facebood'}>
+            </Link>}
+          
+          {testimony.social.facebook &&  <Link href={'facebood'}>
             <Avatar
               variant="circular"
               src="/logos/status.png"
@@ -66,9 +58,9 @@ export function EventContentCard({
               size="lg" onResize={undefined} onResizeCapture={undefined}
 
             />
-          </Link>
-
-          <Link href={'youtube'}>
+          </Link>}
+         
+          {testimony.social.youtube && <Link href={'youtube'}>
           <Avatar
             variant="circular"
             src="/logos/play.png"
@@ -76,7 +68,8 @@ export function EventContentCard({
             alt="youtube"
             size="lg" onResize={undefined} onResizeCapture={undefined}
             />
-            </Link>
+            </Link>}
+          
 
 
         </div>

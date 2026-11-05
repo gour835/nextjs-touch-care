@@ -234,7 +234,6 @@ export async function getAllTransitions(page: number = 1) {
 
         // 5. Calculate total pages for UI controls
         const totalPages = Math.ceil(totalDocuments / limit);
-        const transitions = await TransformationModel.find({}).lean();
         return { success: true, transitions: JSON.parse(JSON.stringify(Transformation)), totalPages };
     } catch (error) {
         console.log('something went wrong: ', error)
@@ -245,20 +244,44 @@ export async function getAllTransitions(page: number = 1) {
 export async function saveTestimonials(
     url: string,
     name: string,
+    des: string,
     instagram: string | undefined,
     facebook: string | undefined,
     youtube: string | undefined
 ) {
     try {
         await TestimonialsModel.create({
-            url, name,
+            url, name, des,
             social: {
                 instagram, facebook, youtube
             }
         })
-        return {success: true}
+        return { success: true }
     } catch (error) {
         console.log('error in saving Testimonials', error);
         return { success: false, error };
+    }
+}
+
+export async function getTestimonials(page: number = 1) {
+    try {
+        const limit = 3
+        const skip = (page - 1) * limit;
+
+        const [Testimonials, totalDocuments] = await Promise.all([
+            TestimonialsModel.find({})
+                .sort({ createdAt: -1 }) // Sort newest first
+                .skip(skip)
+                .limit(limit)
+                .lean(),
+            TestimonialsModel.countDocuments({})
+        ]);
+
+        // 5. Calculate total pages for UI controls
+        const totalPages = Math.ceil(totalDocuments / limit);
+        return { success: true, testimonials: JSON.parse(JSON.stringify(Testimonials)), totalPages };
+    } catch (error) {
+        console.log('error geting testimonials', error);
+        return { success: false, error }
     }
 }

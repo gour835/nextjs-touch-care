@@ -11,13 +11,16 @@ import Testemony from "./testemony";
 import Faq from "./faq";
 import Benifits from "./benifits";
 import Treatments from "./treatments";
-import { getAllServices } from "./actions/action";
+import { getAllServices, getTestimonials } from "./actions/action";
 
 
 
 export default async function Portfolio() {
   const serviceResponse = await getAllServices();
   const services = serviceResponse?.success && serviceResponse.data
+
+  const testimonialsResponse = await getTestimonials(1);
+  const testimonialsData = testimonialsResponse?.success && testimonialsResponse.testimonials;
 
   
   return (
@@ -30,7 +33,7 @@ export default async function Portfolio() {
       <Transformations />
       <OurStats />
       <Treatments  services={services} />
-      <Testemony />
+      <Testemony testimonialsData={testimonialsData} />
       <Faq />
       <Footer />
     </>

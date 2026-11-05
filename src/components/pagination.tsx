@@ -49,7 +49,7 @@ export function SimplePagination({totalPages}: {totalPages: number}) {
     };
 
     return (
-        <div className={`flex items-center gap-8 ${totalPages == 1 ? 'hidden': ''}`}>
+        <div className={`flex items-center gap-8 ${totalPages <= 1 ? 'hidden': ''}`}>
             {/* @ts-expect-error - Suppresses all obsolete Material Tailwind event props */}
             <IconButton
                 size="sm"
