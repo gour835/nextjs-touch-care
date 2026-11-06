@@ -69,7 +69,7 @@ export function SimplePagination({totalPages}: {totalPages: number}) {
                 size="sm"
                 variant="outlined"
                 onClick={next}
-                disabled={active === totalPages}
+                disabled={active === totalPages? true: false}
             >
                 <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
             </IconButton>

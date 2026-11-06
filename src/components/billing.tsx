@@ -105,7 +105,7 @@ function BillingCard({ schedule, IsAdmin }: BillingCardProps) {
                         </div>
                     </div>
                     <div className="flex items-center justify-between">
-                        {!approved &&
+                        {!approved && IsAdmin &&
                             <>
                                 {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                                 <Button
