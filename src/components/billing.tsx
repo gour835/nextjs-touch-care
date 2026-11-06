@@ -55,22 +55,22 @@ interface BillingCardProps {
     IsAdmin: Boolean;
 }
 
-function TimeConversion(time: string){
-    let Hours = Number(time.slice(0,2));
+function TimeConversion(time: string) {
+    let Hours = Number(time.slice(0, 2));
     let Minutes = time.slice(3);
 
-    if(Hours <= 12){
+    if (Hours <= 12) {
         return time.concat(' AM');
-    }else{
+    } else {
         Hours -= 12;
         return `${Hours}:${Minutes} PM`;
     }
 
 }
-async function handleApprove(id: string){
+async function handleApprove(id: string) {
     const schedulesResponse = await approveSchedule(id);
 
-    if(!schedulesResponse?.success){
+    if (!schedulesResponse?.success) {
         return toast.error('some error occured while updating schedule');
     }
 
@@ -92,7 +92,7 @@ function BillingCard({ schedule, IsAdmin }: BillingCardProps) {
         day: 'numeric',
         month: 'short',
         year: 'numeric'
-    }) .concat(' ', ScheduleTime) : 'N/A';
+    }).concat(' ', ScheduleTime) : 'N/A';
 
     const isPaid = order?.status === 'paid' || schedule.paymentDone;
 
@@ -117,7 +117,7 @@ function BillingCard({ schedule, IsAdmin }: BillingCardProps) {
             {/* @ts-expect-error - Material Tailwind type mismatch fix */}
             <Card
                 shadow={false}
-                className={`rounded-lg border border-gray-300 p-4 ${approved? 'bg-green-100': 'bg-amber-100'}`}
+                className={`rounded-lg border border-gray-300 p-4 ${approved ? 'bg-green-100' : 'bg-amber-100'}`}
             >
                 <div className="mb-4 flex items-start justify-between">
                     <div className="flex items-center gap-3">
@@ -140,23 +140,27 @@ function BillingCard({ schedule, IsAdmin }: BillingCardProps) {
                         </div>
                     </div>
                     <div className="flex items-center justify-between">
-                        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                        <Button
-                            size="sm"
-                            variant="text"
-                            className="flex items-center gap-2"
-                            onClick={()=>{handleApprove(schedule._id)}}
-                        >
-                            <TicketCheck className="h-4 w-4 text-gray-600" />
-                            {/* @ts-expect-error - Material Tailwind type mismatch fix */}
-                            <Typography className="!font-semibold text-xs text-gray-600 md:block hidden">
-                                Approve This 
-                            </Typography>
-                        </Button>
-                        <div  className="flex items-center gap-2 uppercase">
+                        {!approved &&
+                            <>
+                                {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                                <Button
+                                    size="sm"
+                                    variant="text"
+                                    className="flex items-center gap-2 group"
+                                    onClick={() => { handleApprove(schedule._id) }}
+                                >
+                                    <TicketCheck className="h-4 w-4 text-gray-600 group-hover:text-green-700" />
+                                    {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                                    <Typography className="!font-semibold text-xs text-gray-600  group-hover:text-green-700 md:block hidden">
+                                        Approve This
+                                    </Typography>
+                                </Button>
+                            </>}
+
+                        <div className="flex items-center gap-2 uppercase">
                             {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                             <Typography className={`!font-semibold text-xs text-gray-600 md:block hidden `}>
-                                {approved? 'Approved': 'Approval Pending'}
+                                {approved ? 'Approved' : 'Approval Pending'}
                             </Typography>
                         </div>
                         {/* @ts-expect-error - Material Tailwind type mismatch fix */}
@@ -171,7 +175,7 @@ function BillingCard({ schedule, IsAdmin }: BillingCardProps) {
                                 Edit
                             </Typography>
                         </Button>
-                        
+
                     </div>
                 </div>
                 <div>
