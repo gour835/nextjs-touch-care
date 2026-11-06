@@ -7,6 +7,9 @@ import {
     Button,
 } from "@material-tailwind/react";
 import { BriefcaseIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { TicketCheck } from "lucide-react";
+import { approveSchedule } from "@/app/actions/action";
+import toast from "react-hot-toast";
 
 export interface RazorpayDetails {
     orderId: string;
@@ -49,6 +52,7 @@ export interface Schedule {
 
 interface BillingCardProps {
     schedule: Schedule;
+    IsAdmin: Boolean;
 }
 
 function TimeConversion(time: string){
@@ -63,8 +67,16 @@ function TimeConversion(time: string){
     }
 
 }
+async function handleApprove(id: string){
+    const schedulesResponse = await approveSchedule(id);
 
-function BillingCard({ schedule }: BillingCardProps) {
+    if(!schedulesResponse?.success){
+        return toast.error('some error occured while updating schedule');
+    }
+
+    return toast.success('Successfully updated Schedule');
+}
+function BillingCard({ schedule, IsAdmin }: BillingCardProps) {
     // 1. Extract populated service object safely
     const service = schedule && typeof schedule.serviceId === 'object' ? schedule.serviceId : null;
     const serviceTitle = service?.title || "General Service";
@@ -128,7 +140,19 @@ function BillingCard({ schedule }: BillingCardProps) {
                         </div>
                     </div>
                     <div className="flex items-center justify-between">
-
+                        {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                        <Button
+                            size="sm"
+                            variant="text"
+                            className="flex items-center gap-2"
+                            onClick={()=>{handleApprove(schedule._id)}}
+                        >
+                            <TicketCheck className="h-4 w-4 text-gray-600" />
+                            {/* @ts-expect-error - Material Tailwind type mismatch fix */}
+                            <Typography className="!font-semibold text-xs text-gray-600 md:block hidden">
+                                Approve This 
+                            </Typography>
+                        </Button>
                         <div  className="flex items-center gap-2 uppercase">
                             {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                             <Typography className={`!font-semibold text-xs text-gray-600 md:block hidden `}>
@@ -174,9 +198,10 @@ function BillingCard({ schedule }: BillingCardProps) {
 
 interface BillingProps {
     schedules: Schedule[]; // Expecting an array of Schedules since aggregation returns schedules with orderDetails
+    IsAdmin: Boolean
 }
 
-function Billing({ schedules }: BillingProps) {
+function Billing({ schedules, IsAdmin }: BillingProps) {
     return (
         <section className="max-w-5xl !mx-auto px-8 py-20 w-full">
             {/* @ts-expect-error - Material Tailwind type mismatch fix */}
@@ -204,7 +229,7 @@ function Billing({ schedules }: BillingProps) {
                 {/* @ts-expect-error - Material Tailwind type mismatch fix */}
                 <CardBody className="flex flex-col gap-4 !p-4">
                     {schedules.map((schedule, key) => (
-                        <BillingCard schedule={schedule} key={schedule._id || key} />
+                        <BillingCard IsAdmin={IsAdmin} schedule={schedule} key={schedule._id || key} />
                     ))}
                 </CardBody>
             </Card>

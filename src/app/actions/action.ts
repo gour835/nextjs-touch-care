@@ -7,6 +7,7 @@ import { PipelineStage } from "mongoose";
 import { Schedule } from "@/components/billing";
 import { TransformationModel } from "@/models/transformation";
 import { TestimonialsModel } from "@/models/testimonials";
+import { revalidatePath } from "next/cache";
 
 
 export async function getUserMobile(email: string) {
@@ -144,6 +145,22 @@ export async function saveSchedule(state: FormState, formData: FormData): Promis
     }
 }
 
+export async function approveSchedule(id: string){
+    try {
+        const schedule = await ScheduleModel.findByIdAndUpdate(id, {
+            approved: true
+        });
+
+        if(!schedule){
+            return {success: false, error: 'Unable to find the schedule.'};
+        }
+        revalidatePath('/dashboard');
+        return {success: true};
+    } catch (error) {
+        console.log('error approving Schedules', error);
+        return {success: false, error};
+    }
+}
 export async function getSchedulesWithOrderDetails(email: string) {
     try {
         const user = await User.findOne({ email });
