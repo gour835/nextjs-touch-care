@@ -10,45 +10,10 @@ import { BriefcaseIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { TicketCheck } from "lucide-react";
 import { approveSchedule } from "@/app/actions/action";
 import toast from "react-hot-toast";
+import { Schedule } from "@/app/lib/types";
+import { SimplePagination } from "./pagination";
 
-export interface RazorpayDetails {
-    orderId: string;
-    paymentId: string;
-    signature?: string;
-}
 
-export interface Service {
-    _id: string;
-    title: string;
-    [key: string]: any;
-}
-
-export interface OrderProps {
-    _id: string;
-    userId: string;
-    scheduleId: string | Schedule;
-    amount: number;
-    currency: string;
-    status: 'created' | 'paid' | 'failed';
-    razorpay?: RazorpayDetails;
-    createdAt: string;
-    updatedAt: string;
-    __v?: number;
-}
-
-export interface Schedule {
-    _id: string;
-    userId: string;
-    serviceId: Service | string;
-    date: string;
-    time: string;
-    approved: boolean;
-    paymentDone: boolean;
-    createdAt: string;
-    updatedAt: string;
-    __v?: number;
-    orderDetails?: OrderProps;
-}
 
 interface BillingCardProps {
     schedule: Schedule;
@@ -202,10 +167,11 @@ function BillingCard({ schedule, IsAdmin }: BillingCardProps) {
 
 interface BillingProps {
     schedules: Schedule[]; // Expecting an array of Schedules since aggregation returns schedules with orderDetails
-    IsAdmin: Boolean
+    IsAdmin: Boolean;
+    totalPages: number
 }
 
-function Billing({ schedules, IsAdmin }: BillingProps) {
+function Billing({ schedules, IsAdmin, totalPages }: BillingProps) {
     return (
         <section className="max-w-5xl !mx-auto px-8 py-20 w-full">
             {/* @ts-expect-error - Material Tailwind type mismatch fix */}
@@ -237,6 +203,10 @@ function Billing({ schedules, IsAdmin }: BillingProps) {
                     ))}
                 </CardBody>
             </Card>
+            <div className="w-full flex justify-center">
+                <SimplePagination totalPages={totalPages} />
+
+            </div>
         </section>
     );
 }

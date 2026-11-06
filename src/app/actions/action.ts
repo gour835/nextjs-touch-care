@@ -4,10 +4,10 @@ import { FormState, ScheduleFormSchema, transformationFormSchema } from "../lib/
 import User from "@/models/users";
 import { ScheduleModel } from "@/models/schedule";
 import { PipelineStage } from "mongoose";
-import { Schedule } from "@/components/billing";
 import { TransformationModel } from "@/models/transformation";
 import { TestimonialsModel } from "@/models/testimonials";
 import { revalidatePath } from "next/cache";
+import { PaginatedScheduleResult } from "../lib/types";
 
 
 export async function getUserMobile(email: string) {
@@ -161,7 +161,7 @@ export async function approveSchedule(id: string){
         return {success: false, error};
     }
 }
-export async function getSchedulesWithOrderDetails(email: string) {
+export async function getSchedulesWithOrderDetails(email: string, page: number = 1) {
     try {
         const user = await User.findOne({ email });
         if (!user) {
@@ -211,12 +211,29 @@ export async function getSchedulesWithOrderDetails(email: string) {
                 }
             }
         );
+        const limit = 5
+        const skip = (page - 1) * limit;
+
+        pipeline.push({
+            $facet: {
+                metadata: [
+                    { $count: 'total' }
+                ],
+                data: [
+                    { $skip: skip },
+                    { $limit: limit }
+                ]
+            }
+        });
 
         // You can also type the result array using your Schedule interface
-        const schedules = await ScheduleModel.aggregate<Schedule>(pipeline);
+        const result = await ScheduleModel.aggregate<PaginatedScheduleResult>(pipeline);
+        const schedules = result[0]?.data || [];
+        const total = result[0]?.metadata[0]?.total || 0;
+        const totalPages = Math.ceil(total / limit);
 
         console.log('server', schedules);
-        return { success: true, schedules };
+        return { success: true, schedules, totalPages };
     }
     catch (error) {
         console.error('Error fetching schedules:', error);
